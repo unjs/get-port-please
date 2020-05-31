@@ -1,6 +1,6 @@
 {
   "name": "get-port-please",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Get an available TCP port to listen",
   "repository": "nuxt-contrib/get-port-please",
   "license": "MIT",
