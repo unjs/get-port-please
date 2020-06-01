@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/nuxt-contrib/get-port-plz/compare/v0.0.4...v0.0.5) (2020-06-01)
+
+
+### Bug Fixes
+
+* name is not defined ([c1829f1](https://github.com/nuxt-contrib/get-port-plz/commit/c1829f12cfaf5304661ef16d744bbc66a2610a2d))
+
 ### [0.0.4](https://github.com/nuxt-contrib/get-port-plz/compare/v0.0.3...v0.0.4) (2020-06-01)
 
 
