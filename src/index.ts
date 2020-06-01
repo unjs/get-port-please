@@ -42,7 +42,7 @@ export default async function getPort (options?: GetPortOptions): Promise<number
 
   // Memo
   const memoOptions = { name: opts.memoName, dir: opts.memoDir }
-  const memoKey = 'port_' + name
+  const memoKey = 'port_' + opts.name
   const memo = await getMemo(memoOptions)
   if (memo[memoKey]) {
     portsToCheck.push(memo[memoKey])
