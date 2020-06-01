@@ -1,6 +1,6 @@
 {
   "name": "get-port-plz",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Get an available TCP port to listen",
   "repository": "nuxt-contrib/get-port-plz",
   "license": "MIT",
