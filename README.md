@@ -1,24 +1,24 @@
-# get-port-please
+# get-port-plz
 
 > Get an available TCP port to listen
 
-[![npm](https://img.shields.io/npm/dt/get-port-please.svg?style=flat-square)](https://npmjs.com/package/get-port-please)
-[![npm (scoped with tag)](https://img.shields.io/npm/v/get-port-please/latest.svg?style=flat-square)](https://npmjs.com/package/get-port-please)
+[![npm](https://img.shields.io/npm/dt/get-port-plz.svg?style=flat-square)](https://npmjs.com/package/get-port-plz)
+[![npm (scoped with tag)](https://img.shields.io/npm/v/get-port-plz/latest.svg?style=flat-square)](https://npmjs.com/package/get-port-plz)
 
 ## Usage
 
 Install package:
 
 ```bash
-yarn add get-port-please
+yarn add get-port-plz
 # or
-or npm install get-port-please
+or npm install get-port-plz
 ```
 
 ```js
-const getPort = require('get-port-please')
+const getPort = require('get-port-plz')
 // or
-import getPort from 'get-port-please'
+import getPort from 'get-port-plz'
 ```
 
 ```ts
