@@ -2,47 +2,58 @@ import { createServer, AddressInfo } from 'net'
 import { getMemo, setMemo } from 'fs-memo'
 
 interface GetPortOptions {
-  ports: number[]
-  port: number
-  memoDir: string
-  memoName: string
+  name?: string
+
+  random?: boolean
+  port?: number
+  ports?: number[]
+
+  memoDir?: string
+  memoName?: string
 }
 
-const defaults: GetPortOptions = {
-  ports: [4000, 5000, 6000, 7000],
+const defaults = {
+  name: 'default',
+
+  random: false,
   port: parseInt(process.env.PORT || '') || 3000,
+  ports: [4000, 5000, 6000, 7000],
+
   memoDir: __dirname,
   memoName: '.get-port'
 }
 
-export default async function getPort (_options: Partial<GetPortOptions> = {}): Promise<number> {
-  const options = { ...defaults, _options }
+export default async function getPort (options?: GetPortOptions): Promise<number> {
+  const opts = { ...defaults, ...options }
 
   const portsToCheck: number[] = []
 
-  // options.port
-  if (options.port) {
-    portsToCheck.push(options.port)
-  }
+  if (!opts.random) {
+    // options.port
+    if (opts.port) {
+      portsToCheck.push(opts.port)
+    }
 
-  // options.ports
-  if (Array.isArray(options.ports)) {
-    portsToCheck.push(...options.ports)
+    // options.ports
+    if (Array.isArray(opts.ports)) {
+      portsToCheck.push(...opts.ports)
+    }
   }
 
   // Memo
-  const memoOptions = { name: options.memoName, dir: options.memoDir }
+  const memoOptions = { name: opts.memoName, dir: opts.memoDir }
+  const memoKey = 'port_' + name
   const memo = await getMemo(memoOptions)
-  if (memo.port) {
-    portsToCheck.push(memo.port)
+  if (memo[memoKey]) {
+    portsToCheck.push(memo[memoKey])
   }
 
-  const port = await checkPorts(portsToCheck)
+  const availablePort = await checkPorts(portsToCheck)
 
   // Persist
-  await setMemo({ port }, memoOptions)
+  await setMemo({ [memoKey]: availablePort }, memoOptions)
 
-  return port
+  return availablePort
 }
 
 async function checkPorts (ports: number[]): Promise<number> {

@@ -31,12 +31,24 @@ Try sequence is: port > ports > memo > random
 
 ```ts
 interface GetPortOptions {
-    ports?: number[]
-    port?: number
-    memoDir?: string
-    memoName?: string
+  name?: string
+
+  random?: boolean
+  port?: number
+  ports?: number[]
+
+  memoDir?: string
+  memoName?: string
 }
 ```
+
+### `name`
+
+Unique name for port memorizing. Default is `default`.
+
+### `random`
+
+If enabled, `port` and `ports` will be ignored. Default is `false`.
 
 ### `port`
 
@@ -46,7 +58,7 @@ First port to check. Default is `process.env.PORT || 3000`
 
 Alternative ports to check. Default is `[4000, 5000, 6000, 7000]`
 
-### `memoDir`/`memoName`
+### `memoDir` / `memoName`
 
 Options passed to [fs-memo](https://github.com/nuxt-contrib/fs-memo)
 
