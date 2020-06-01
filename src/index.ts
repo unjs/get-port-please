@@ -1,16 +1,21 @@
 import { createServer, AddressInfo } from 'net'
 import { getMemo, setMemo } from 'fs-memo'
 
-const defaults = {
+interface GetPortOptions {
+  ports: number[]
+  port: number
+  memoDir: string
+  memoName: string
+}
+
+const defaults: GetPortOptions = {
   ports: [4000, 5000, 6000, 7000],
   port: parseInt(process.env.PORT || '') || 3000,
   memoDir: __dirname,
   memoName: '.get-port'
 }
 
-type GetPortOptions = Partial<typeof defaults>
-
-export default async function getPort (_options: GetPortOptions = {}): Promise<number> {
+export default async function getPort (_options: Partial<GetPortOptions> = {}): Promise<number> {
   const options = { ...defaults, _options }
 
   const portsToCheck: number[] = []
