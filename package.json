@@ -15,15 +15,15 @@
     "release": "yarn build && standard-version && npm publish && git push --follow-tags"
   },
   "dependencies": {
-    "fs-memo": "^0.0.6"
+    "fs-memo": "^1.0.0"
   },
   "devDependencies": {
-    "@nuxtjs/eslint-config-typescript": "^2.0.0",
-    "@types/node": "^14.0.6",
-    "bili": "^4.10.0",
-    "eslint": "^7.1.0",
-    "rollup-plugin-typescript2": "^0.27.1",
-    "standard-version": "^8.0.0",
-    "typescript": "^3.9.3"
+    "@nuxtjs/eslint-config-typescript": "latest",
+    "@types/node": "latest",
+    "bili": "latest",
+    "eslint": "latest",
+    "rollup-plugin-typescript2": "latest",
+    "standard-version": "latest",
+    "typescript": "latest"
   }
 }
