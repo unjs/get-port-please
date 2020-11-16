@@ -19,8 +19,8 @@ const defaults = {
   port: parseInt(process.env.PORT || '') || 3000,
   ports: [4000, 5000, 6000, 7000],
 
-  memoDir: __dirname,
-  memoName: '.get-port'
+  memoDir: undefined, // Default is node_modules/.cache/fs-memo
+  memoName: 'port'
 }
 
 export default async function getPort (options?: GetPortOptions): Promise<number> {
