@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/nuxt-contrib/get-port-please/compare/v1.0.0...v1.1.0) (2020-11-16)
+
+
+### Features
+
+* update fs-memo and improve config handling ([5e4acee](https://github.com/nuxt-contrib/get-port-please/commit/5e4acee1d7aa47c100815a25a43a508eafbacd6b))
+
 ## [1.0.0](https://github.com/nuxt-contrib/get-port-please/compare/v0.0.6...v1.0.0) (2020-06-16)
 
 ### [0.0.6](https://github.com/nuxt-contrib/get-port-please/compare/v0.0.5...v0.0.6) (2020-06-01)
