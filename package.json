@@ -15,7 +15,7 @@
     "release": "yarn build && standard-version && npm publish && git push --follow-tags"
   },
   "dependencies": {
-    "fs-memo": "^1.1.0"
+    "fs-memo": "^1.2.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "latest",

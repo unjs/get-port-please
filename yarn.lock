@@ -1433,10 +1433,10 @@ fs-extra@^9.0.1:
     jsonfile "^6.0.1"
     universalify "^1.0.0"
 
-fs-memo@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/fs-memo/-/fs-memo-1.1.0.tgz#a3870c074090d9425b24cf399986a669c1cf0866"
-  integrity sha512-p5qUMyLAmnBrDuQj2e59kXQI/dym6w3hDNJISmkqXIMa/xE4j69hwySzMM5HtugoTVvVtmcojSCeCwmkmGhSpA==
+fs-memo@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/fs-memo/-/fs-memo-1.2.0.tgz#a2ec3be606b902077adbb37ec529c5ec5fb2e037"
+  integrity sha512-YEexkCpL4j03jn5SxaMHqcO6IuWuqm8JFUYhyCep7Ao89JIYmB8xoKhK7zXXJ9cCaNXpyNH5L3QtAmoxjoHW2w==
 
 fs.realpath@^1.0.0:
   version "1.0.0"
