@@ -10,6 +10,8 @@ export interface GetPortOptions {
   memoName: string
 }
 
+export type GetPortInput = Partial<GetPortOptions> | number | string
+
 const defaults = {
   name: 'default',
   random: false,
@@ -18,7 +20,11 @@ const defaults = {
   memoName: 'port'
 }
 
-export async function getPort (config?: Partial<GetPortOptions>): Promise<number> {
+export async function getPort (config?: GetPortInput): Promise<number> {
+  if (typeof config === 'number' || typeof config === 'string') {
+    config = { port: parseInt(config + '') }
+  }
+
   const options = { ...defaults, ...config } as GetPortOptions
 
   const portsToCheck: number[] = []
