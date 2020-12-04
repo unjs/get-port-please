@@ -1,7 +1,7 @@
 import { createServer, AddressInfo } from 'net'
 import { getMemo, setMemo } from 'fs-memo'
 
-interface GetPortOptions {
+export interface GetPortOptions {
   name: string
   random: boolean
   port: number
@@ -18,7 +18,7 @@ const defaults = {
   memoName: 'port'
 }
 
-export default async function getPort (config?: Partial<GetPortOptions>): Promise<number> {
+export async function getPort (config?: Partial<GetPortOptions>): Promise<number> {
   const options = { ...defaults, ...config } as GetPortOptions
 
   const portsToCheck: number[] = []
