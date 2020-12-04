@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/nuxt-contrib/get-port-please/compare/v1.1.0...v2.0.0) (2020-12-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* use named exports
+
+### Features
+
+* use named exports ([37e5aa2](https://github.com/nuxt-contrib/get-port-please/commit/37e5aa2a485165c325f674951cef324889318304))
+
 ## [1.1.0](https://github.com/nuxt-contrib/get-port-please/compare/v1.0.0...v1.1.0) (2020-11-16)
 
 
