@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/nuxt-contrib/get-port-please/compare/v2.0.0...v2.1.0) (2020-12-04)
+
+
+### Features
+
+* allow config to be string or number ([13f4275](https://github.com/nuxt-contrib/get-port-please/commit/13f4275e021fe1cd69c3ac775c284d92cd6c601d))
+
 ## [2.0.0](https://github.com/nuxt-contrib/get-port-please/compare/v1.1.0...v2.0.0) (2020-12-04)
 
 
