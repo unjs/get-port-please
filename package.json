@@ -12,17 +12,22 @@
   "scripts": {
     "build": "siroc build",
     "lint": "eslint --ext ts .",
-    "release": "yarn build && standard-version && npm publish && git push --follow-tags"
+    "release": "yarn build && standard-version && npm publish && git push --follow-tags",
+    "test": "jest"
   },
   "dependencies": {
     "fs-memo": "^1.2.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "latest",
+    "@types/jest": "^26.0.22",
     "@types/node": "latest",
     "eslint": "latest",
+    "jest": "^26.6.3",
     "siroc": "^0.4.0",
     "standard-version": "latest",
+    "ts-jest": "^26.5.4",
+    "ts-node": "^9.1.1",
     "typescript": "latest"
   }
 }
