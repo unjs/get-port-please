@@ -2,7 +2,7 @@
   "name": "get-port-please",
   "version": "2.1.0",
   "description": "Get an available TCP port to listen",
-  "repository": "nuxt-contrib/get-port-please",
+  "repository": "unjs/get-port-please",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

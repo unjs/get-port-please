@@ -67,7 +67,7 @@ The host to check. Default is `process.env.HOST || '0.0.0.0'`
 
 ### `memoDir` / `memoName`
 
-Options passed to [fs-memo](https://github.com/nuxt-contrib/fs-memo)
+Options passed to [fs-memo](https://github.com/unjs/fs-memo)
 
 - Default dir: `node_modules/get-port/dist`
 - Defalt name: `.get-port`
