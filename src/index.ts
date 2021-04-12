@@ -6,6 +6,7 @@ export interface GetPortOptions {
   random: boolean
   port: number
   ports: number[]
+  host: string
   memoDir: string
   memoName: string
 }
@@ -17,6 +18,7 @@ const defaults = {
   random: false,
   port: parseInt(process.env.PORT || '') || 3000,
   ports: [4000, 5000, 6000, 7000],
+  host: process.env.HOST || '0.0.0.0',
   memoName: 'port'
 }
 
@@ -50,7 +52,7 @@ export async function getPort (config?: GetPortInput): Promise<number> {
     portsToCheck.push(memo[memoKey])
   }
 
-  const availablePort = await checkPorts(portsToCheck)
+  const availablePort = await checkPorts(portsToCheck, options.host)
 
   // Persist
   await setMemo({ [memoKey]: availablePort }, memoOptions)
@@ -58,22 +60,22 @@ export async function getPort (config?: GetPortInput): Promise<number> {
   return availablePort
 }
 
-async function checkPorts (ports: number[]): Promise<number> {
-  for (const p of ports) {
-    const r = await checkPort(p)
+async function checkPorts (ports: number[], host: string): Promise<number> {
+  for (const port of ports) {
+    const r = await checkPort(port, host)
     if (r) {
       return r
     }
   }
-  return checkPort(0) as unknown as number
+  return checkPort(0, host) as unknown as number
 }
 
-function checkPort (port: number): Promise<number|false> {
+function checkPort (port: number, host: string): Promise<number|false> {
   return new Promise((resolve) => {
     const server = createServer()
     server.unref()
     server.on('error', () => { resolve(false) })
-    server.listen({ port }, () => {
+    server.listen(port, host, () => {
       const { port } = server.address() as AddressInfo
       server.close(() => { resolve(port) })
     })

@@ -38,6 +38,7 @@ interface GetPortOptions {
   random?: boolean
   port?: number
   ports?: number[]
+  host?: string
 
   memoDir?: string
   memoName?: string
@@ -59,6 +60,10 @@ First port to check. Default is `process.env.PORT || 3000`
 ### `ports`
 
 Alternative ports to check. Default is `[4000, 5000, 6000, 7000]`
+
+### `host`
+
+The host to check. Default is `process.env.HOST || '0.0.0.0'`
 
 ### `memoDir` / `memoName`
 
