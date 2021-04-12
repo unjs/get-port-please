@@ -13,21 +13,20 @@ export interface GetPortOptions {
 
 export type GetPortInput = Partial<GetPortOptions> | number | string
 
-const defaults = {
-  name: 'default',
-  random: false,
-  port: parseInt(process.env.PORT || '') || 3000,
-  ports: [4000, 5000, 6000, 7000],
-  host: process.env.HOST || '0.0.0.0',
-  memoName: 'port'
-}
-
 export async function getPort (config?: GetPortInput): Promise<number> {
   if (typeof config === 'number' || typeof config === 'string') {
     config = { port: parseInt(config + '') }
   }
 
-  const options = { ...defaults, ...config } as GetPortOptions
+  const options = {
+    name: 'default',
+    random: false,
+    port: parseInt(process.env.PORT || '') || 3000,
+    ports: [4000, 5000, 6000, 7000],
+    host: process.env.HOST || '0.0.0.0',
+    memoName: 'port',
+    ...config
+  } as GetPortOptions
 
   const portsToCheck: number[] = []
 
