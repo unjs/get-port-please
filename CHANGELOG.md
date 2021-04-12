@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/unjs/get-port-please/compare/v2.1.0...v2.2.0) (2021-04-12)
+
+
+### Features
+
+* add `host` option ([#4](https://github.com/unjs/get-port-please/issues/4)) ([f85d941](https://github.com/unjs/get-port-please/commit/f85d94154e3832e3cf854c2d631329c29e71df92))
+
+
+### Bug Fixes
+
+* resolve defaults at `getPort` ([dcab479](https://github.com/unjs/get-port-please/commit/dcab4795d49184c7e4df115372f43e4eec52fbe3))
+
 ## [2.1.0](https://github.com/unjs/get-port-please/compare/v2.0.0...v2.1.0) (2020-12-04)
 
 
