@@ -13,7 +13,7 @@
     "build": "siroc build",
     "lint": "eslint --ext ts .",
     "release": "yarn build && standard-version && npm publish && git push --follow-tags",
-    "test": "jest"
+    "test": "jest --runInBand"
   },
   "dependencies": {
     "fs-memo": "^1.2.0"
