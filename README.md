@@ -39,6 +39,7 @@ interface GetPortOptions {
   port?: number
   ports?: number[]
   host?: string
+  hosts?: string[]
 
   memoDir?: string
   memoName?: string
@@ -63,14 +64,20 @@ Alternative ports to check. Default is `[4000, 5000, 6000, 7000]`
 
 ### `host`
 
-The host to check. Default is `process.env.HOST || '0.0.0.0'`
+The host to check for available port. Default is `process.env.HOST`.
+
+### `hosts`
+
+List of hosts to check. The returned port will be not in use on *all* the hosts. Default is `['0.0.0.0', '127.0.0.1']`.
+
+**Note:** if `host` option is set, `hosts` will be ignored.
 
 ### `memoDir` / `memoName`
 
 Options passed to [fs-memo](https://github.com/unjs/fs-memo)
 
 - Default dir: `node_modules/get-port/dist`
-- Defalt name: `.get-port`
+- Default name: `.get-port`
 
 ## License
 

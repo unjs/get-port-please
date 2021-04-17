@@ -1,4 +1,4 @@
-import { createServer, AddressInfo } from 'net'
+import { createServer } from 'net'
 import { getMemo, setMemo } from 'fs-memo'
 
 export interface GetPortOptions {
@@ -7,6 +7,7 @@ export interface GetPortOptions {
   port: number
   ports: number[]
   host: string
+  hosts: string[]
   memoDir: string
   memoName: string
 }
@@ -23,7 +24,8 @@ export async function getPort (config?: GetPortInput): Promise<number> {
     random: false,
     port: parseInt(process.env.PORT || '') || 3000,
     ports: [4000, 5000, 6000, 7000],
-    host: process.env.HOST || '0.0.0.0',
+    host: process.env.HOST,
+    hosts: ['0.0.0.0', '127.0.0.1'],
     memoName: 'port',
     ...config
   } as GetPortOptions
@@ -42,6 +44,8 @@ export async function getPort (config?: GetPortInput): Promise<number> {
     }
   }
 
+  const hostsToCheck = options.host ? [options.host] : options.hosts
+
   // Memo
   const memoOptions = { name: options.memoName, dir: options.memoDir! }
 
@@ -51,32 +55,60 @@ export async function getPort (config?: GetPortInput): Promise<number> {
     portsToCheck.push(memo[memoKey])
   }
 
-  const availablePort = await checkPorts(portsToCheck, options.host)
+  const resolvedPort = await resolvePort(portsToCheck, hostsToCheck)
 
   // Persist
-  await setMemo({ [memoKey]: availablePort }, memoOptions)
+  await setMemo({ [memoKey]: resolvedPort }, memoOptions)
+
+  return resolvedPort
+}
+
+async function resolvePort (ports: number[], hosts: string[]): Promise<number> {
+  let availablePort: number = NaN
+  let i = 0
+
+  do {
+    const isRandomPort = i === ports.length
+    const port = !isRandomPort ? ports[i++] : getRandomPort()
+    if (await checkHosts(port, hosts)) {
+      availablePort = port
+    }
+  } while (!availablePort)
 
   return availablePort
 }
 
-async function checkPorts (ports: number[], host: string): Promise<number> {
-  for (const port of ports) {
-    const r = await checkPort(port, host)
-    if (r) {
-      return r
-    }
-  }
-  return checkPort(0, host) as unknown as number
+function getRandomPort (min = 1024, max = 65535) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-function checkPort (port: number, host: string): Promise<number|false> {
-  return new Promise((resolve) => {
+async function checkHosts (port: number, hosts: string[]): Promise<boolean> {
+  try {
+    for (const host of hosts) {
+      await checkPort(port, host)
+    }
+  } catch (err) {
+    handleError(err)
+    return false
+  }
+
+  return true
+}
+
+function checkPort (port: number, host: string): Promise<void> {
+  return new Promise((resolve, reject) => {
     const server = createServer()
     server.unref()
-    server.on('error', () => { resolve(false) })
+    server.on('error', err => reject(err))
     server.listen(port, host, () => {
-      const { port } = server.address() as AddressInfo
-      server.close(() => { resolve(port) })
+      server.close(() => { resolve() })
     })
   })
+}
+
+function handleError (err: any) {
+  const silenced = ['EADDRINUSE', 'EACCES'] // expected, must be silenced
+  if (!silenced.includes(err.code)) {
+    throw err
+  }
 }
