@@ -18,13 +18,14 @@ or npm install get-port-please
 ```
 
 ```js
-const { getPort } = require('get-port-please')
+const { getPort, checkPort } = require('get-port-please')
 // or
-import { getPort } from 'get-port-please'
+import { getPort, checkPort } from 'get-port-please'
 ```
 
 ```ts
 function getPort(options?: GetPortOptions): Promise<number>
+function checkPort(port: number, host?: string): Promise<number | false>
 ```
 
 Try sequence is: port > ports > memo > random
