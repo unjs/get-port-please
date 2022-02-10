@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/unjs/get-port-please/compare/v2.2.0...v2.3.0) (2022-02-10)
+
+
+### Features
+
+* export `checkPort` utils ([#6](https://github.com/unjs/get-port-please/issues/6)) ([c248dff](https://github.com/unjs/get-port-please/commit/c248dff81a7eb3acc20f0277d1eae00130e43d0d))
+
 ## [2.2.0](https://github.com/unjs/get-port-please/compare/v2.1.0...v2.2.0) (2021-04-12)
 
 
