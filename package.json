@@ -4,14 +4,21 @@
   "description": "Get an available TCP port to listen",
   "repository": "unjs/get-port-please",
   "license": "MIT",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "siroc build",
+    "build": "unbuild",
     "lint": "eslint --ext ts .",
+    "prepack": "unbuild",
     "release": "yarn build && standard-version && npm publish && git push --follow-tags",
     "test": "jest"
   },
@@ -20,14 +27,14 @@
   },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "latest",
-    "@types/jest": "^26.0.22",
+    "@types/jest": "latest",
     "@types/node": "latest",
     "eslint": "latest",
-    "jest": "^26.6.3",
-    "siroc": "^0.4.0",
+    "jest": "latest",
     "standard-version": "latest",
-    "ts-jest": "^26.5.4",
-    "ts-node": "^9.1.1",
-    "typescript": "latest"
+    "ts-jest": "latest",
+    "ts-node": "latest",
+    "typescript": "latest",
+    "unbuild": "latest"
   }
 }
