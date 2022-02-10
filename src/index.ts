@@ -59,7 +59,7 @@ export async function getPort (config?: GetPortInput): Promise<number> {
   return availablePort
 }
 
-async function checkPorts (ports: number[], host: string): Promise<number> {
+export async function checkPorts (ports: number[], host?: string): Promise<number> {
   for (const port of ports) {
     const r = await checkPort(port, host)
     if (r) {
@@ -69,7 +69,7 @@ async function checkPorts (ports: number[], host: string): Promise<number> {
   return checkPort(0, host) as unknown as number
 }
 
-function checkPort (port: number, host: string): Promise<number|false> {
+export function checkPort (port: number, host: string = process.env.HOST || '0.0.0.0'): Promise<number|false> {
   return new Promise((resolve) => {
     const server = createServer()
     server.unref()
