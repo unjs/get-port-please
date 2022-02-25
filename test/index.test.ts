@@ -43,3 +43,18 @@ describe('getPort (host)', () => {
     })
   })
 })
+
+describe('getPort (host)', () => {
+  let portBlocker: Server
+
+  afterEach(() => {
+    portBlocker?.close()
+  })
+
+  test('default port is in use', async () => {
+    process.env.HOST = 'localhost'
+    portBlocker = await blockPort(3000, 'localhost')
+    const port = await getPort()
+    expect(port).toEqual(4000)
+  })
+})

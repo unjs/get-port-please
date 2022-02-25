@@ -64,7 +64,7 @@ Alternative ports to check. Default is `[4000, 5000, 6000, 7000]`
 
 ### `host`
 
-The host to check. Default is `process.env.HOST || '0.0.0.0'`
+The host to check. Default is `process.env.HOST` otherwise all available hosts will be checked.
 
 ### `memoDir` / `memoName`
 
