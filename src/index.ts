@@ -59,7 +59,7 @@ export async function getPort (config?: GetPortInput): Promise<PortNumber> {
   return availablePort
 }
 
-export async function getRandomPort (host: HostAddress) {
+export async function getRandomPort (host?: HostAddress) {
   const port = await checkPort(0, host)
   if (port === false) {
     throw new Error('Unable to obtain an available random port number!')
