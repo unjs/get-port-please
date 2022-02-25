@@ -98,6 +98,7 @@ export async function waitForPort (port: PortNumber, opts: WaitForPortOptions = 
     if (await _checkPort(port, opts.host) === false) {
       return
     }
+    await new Promise(resolve => setTimeout(resolve, delay))
   }
   throw new Error(`Timeout waiting for port ${port} after ${retries} retries with ${delay}ms interval.`)
 }
