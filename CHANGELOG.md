@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/unjs/get-port-please/compare/v2.3.0...v2.4.0) (2022-02-25)
+
+
+### Features
+
+* check port against all available hosts ([bac49cc](https://github.com/unjs/get-port-please/commit/bac49cc4de6aea681314c794284cca684c25e0fa))
+* export `waitForPort` ([1c42832](https://github.com/unjs/get-port-please/commit/1c4283292353e908fa3049e0b3f60f23338c6cff))
+
 ## [2.3.0](https://github.com/unjs/get-port-please/compare/v2.2.0...v2.3.0) (2022-02-10)
 
 
