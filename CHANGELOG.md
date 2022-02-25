@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.2](https://github.com/unjs/get-port-please/compare/v2.4.1...v2.4.2) (2022-02-25)
+
+
+### Bug Fixes
+
+* **waitForPort:** wait for delay ([01497a8](https://github.com/unjs/get-port-please/commit/01497a80943116ff9a82aa516509044ae2a7d979))
+
 ### [2.4.1](https://github.com/unjs/get-port-please/compare/v2.4.0...v2.4.1) (2022-02-25)
 
 
