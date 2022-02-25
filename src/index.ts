@@ -14,7 +14,10 @@ export interface GetPortOptions {
 
 export type GetPortInput = Partial<GetPortOptions> | number | string
 
-export async function getPort (config?: GetPortInput): Promise<number> {
+export type HostAddress = undefined | string
+export type PortNumber = number
+
+export async function getPort (config?: GetPortInput): Promise<PortNumber> {
   if (typeof config === 'number' || typeof config === 'string') {
     config = { port: parseInt(config + '') }
   }
@@ -29,30 +32,26 @@ export async function getPort (config?: GetPortInput): Promise<number> {
     ...config
   } as GetPortOptions
 
-  const portsToCheck: number[] = []
-
-  if (!options.random) {
-    // options.port
-    if (options.port) {
-      portsToCheck.push(options.port)
-    }
-
-    // options.ports
-    if (Array.isArray(options.ports)) {
-      portsToCheck.push(...options.ports)
-    }
+  if (options.random) {
+    return getRandomPort(options.host)
   }
+
+  // Ports to check
+  const portsToCheck: PortNumber[] = [
+    options.port,
+    ...options.ports
+  ].filter(Boolean)
 
   // Memo
   const memoOptions = { name: options.memoName, dir: options.memoDir! }
-
   const memoKey = 'port_' + options.name
   const memo = await getMemo(memoOptions)
   if (memo[memoKey]) {
     portsToCheck.push(memo[memoKey])
   }
 
-  const availablePort = await checkPorts(portsToCheck, options.host)
+  // Try to find a port
+  const availablePort = await findPort(portsToCheck, options.host)
 
   // Persist
   await setMemo({ [memoKey]: availablePort }, memoOptions)
@@ -60,19 +59,15 @@ export async function getPort (config?: GetPortInput): Promise<number> {
   return availablePort
 }
 
-export async function checkPorts (ports: number[], host?: string): Promise<number> {
-  for (const port of ports) {
-    const r = await checkPort(port, host)
-    if (r) {
-      return r
-    }
+export async function getRandomPort (host: HostAddress) {
+  const port = await checkPort(0, host)
+  if (port === false) {
+    throw new Error('Unable to obtain an available random port number!')
   }
-  return checkPort(0, host) as unknown as number
+  return port
 }
 
-export type HostAddress = undefined | string
-
-export async function checkPort (port: number, host: HostAddress | HostAddress[] | undefined = process.env.HOST): Promise<number|false> {
+export async function checkPort (port: PortNumber, host: HostAddress | HostAddress[] | undefined = process.env.HOST): Promise<PortNumber|false> {
   if (!host) {
     host = getLocalHosts([undefined /* default */, '0.0.0.0'])
   }
@@ -93,7 +88,7 @@ export async function checkPort (port: number, host: HostAddress | HostAddress[]
 
 // ----- Internal -----
 
-function _checkPort (port: number, host: HostAddress): Promise<number|false> {
+function _checkPort (port: PortNumber, host: HostAddress): Promise<PortNumber|false> {
   return new Promise((resolve) => {
     const server = createServer()
     server.unref()
@@ -120,4 +115,14 @@ function getLocalHosts (additional?: HostAddress[]): HostAddress[] {
     }
   }
   return Array.from(hosts)
+}
+
+async function findPort (ports: number[], host?: HostAddress): Promise<PortNumber> {
+  for (const port of ports) {
+    const r = await checkPort(port, host)
+    if (r) {
+      return r
+    }
+  }
+  return getRandomPort(host)
 }

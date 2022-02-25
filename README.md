@@ -18,9 +18,11 @@ or npm install get-port-please
 ```
 
 ```js
-const { getPort, checkPort } = require('get-port-please')
-// or
-import { getPort, checkPort } from 'get-port-please'
+// ESM
+import { getPort, checkPort, getRandomPort } from 'get-port-please'
+
+// CommonJS
+const { getPort, checkPort, getRandomPort } = require('get-port-please')
 ```
 
 ```ts
