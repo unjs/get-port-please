@@ -20,21 +20,18 @@
     "lint": "eslint --ext ts .",
     "prepack": "unbuild",
     "release": "yarn build && standard-version && npm publish && git push --follow-tags",
-    "test": "jest"
+    "test": "vitest"
   },
   "dependencies": {
     "fs-memo": "^1.2.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "latest",
-    "@types/jest": "latest",
     "@types/node": "latest",
     "eslint": "latest",
-    "jest": "latest",
     "standard-version": "latest",
-    "ts-jest": "latest",
-    "ts-node": "latest",
     "typescript": "latest",
-    "unbuild": "latest"
+    "unbuild": "latest",
+    "vitest": "^0.5.5"
   }
 }

@@ -1,4 +1,5 @@
 import { Server } from 'net'
+import { describe, test, expect, afterEach } from 'vitest'
 import { getPort } from '../src'
 import { blockPort } from './utils'
 
