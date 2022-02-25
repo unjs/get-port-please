@@ -3,13 +3,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Node",
-    "strict": true,
-    "declaration": true,
-    "esModuleInterop": true,
-    "types": [
-      "node",
-      "jest"
-    ]
+    "esModuleInterop": true
   },
   "include": [
     "src"
