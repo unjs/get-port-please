@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.1](https://github.com/unjs/get-port-please/compare/v2.4.0...v2.4.1) (2022-02-25)
+
+
+### Bug Fixes
+
+* **getRandomPort:** host argument is optional ([7081383](https://github.com/unjs/get-port-please/commit/70813834ba289c631df379b0ddd34eccbe54b0d4))
+
 ## [2.4.0](https://github.com/unjs/get-port-please/compare/v2.3.0...v2.4.0) (2022-02-25)
 
 
