@@ -67,6 +67,23 @@ export async function getRandomPort (host?: HostAddress) {
   return port
 }
 
+export interface WaitForPortOptions {
+  host?: HostAddress
+  delay?: number
+  retries?: number
+}
+export async function waitForPort (port: PortNumber, opts: WaitForPortOptions = {}) {
+  const delay = opts.delay || 500
+  const retries = opts.retries || 4
+  for (let i = retries; i > 0; i--) {
+    if (await checkPort(port, opts.host) === false) {
+      return
+    }
+    await new Promise(resolve => setTimeout(resolve, delay))
+  }
+  throw new Error(`Timeout waiting for port ${port} after ${retries} retries with ${delay}ms interval.`)
+}
+
 export async function checkPort (port: PortNumber, host: HostAddress | HostAddress[] = process.env.HOST): Promise<PortNumber|false> {
   if (!host) {
     host = getLocalHosts([undefined /* default */, '0.0.0.0'])
@@ -84,23 +101,6 @@ export async function checkPort (port: PortNumber, host: HostAddress | HostAddre
     }
   }
   return port
-}
-
-export interface WaitForPortOptions {
-  host?: HostAddress
-  delay?: number
-  retries?: number
-}
-export async function waitForPort (port: PortNumber, opts: WaitForPortOptions = {}) {
-  const delay = opts.delay || 500
-  const retries = opts.retries || 4
-  for (let i = retries; i > 0; i--) {
-    if (await _checkPort(port, opts.host) === false) {
-      return
-    }
-    await new Promise(resolve => setTimeout(resolve, delay))
-  }
-  throw new Error(`Timeout waiting for port ${port} after ${retries} retries with ${delay}ms interval.`)
 }
 
 // ----- Internal -----
