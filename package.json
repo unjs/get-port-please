@@ -1,6 +1,6 @@
 {
   "name": "get-port-please",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "description": "Get an available TCP port to listen",
   "repository": "unjs/get-port-please",
   "license": "MIT",
