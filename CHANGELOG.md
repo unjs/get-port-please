@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.5.0](https://github.com/unjs/get-port-please/compare/v2.4.3...v2.5.0) (2022-04-11)
+
+
+### Features
+
+* `portRange` support ([44c8acd](https://github.com/unjs/get-port-please/commit/44c8acdc7a26de5b7308ee409543a7f9e8fdb275))
+* ignore unsafe ports ([#8](https://github.com/unjs/get-port-please/issues/8)) ([dd29cbd](https://github.com/unjs/get-port-please/commit/dd29cbd174c6676869cfb114c33671126c48ce86))
+
 ### [2.4.3](https://github.com/unjs/get-port-please/compare/v2.4.2...v2.4.3) (2022-02-28)
 
 
