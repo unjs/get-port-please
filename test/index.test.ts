@@ -19,7 +19,7 @@ describe('getPort ()', () => {
     test('default port is in use', async () => {
       portBlocker = await blockPort(3000)
       const port = await getPort()
-      expect(port).toEqual(4000)
+      expect(port).toEqual(3001)
     })
   })
 })
@@ -40,7 +40,7 @@ describe('getPort (host)', () => {
     test('default port is IN USE', async () => {
       portBlocker = await blockPort(3000, 'localhost')
       const port = await getPort({ host: 'localhost' })
-      expect(port).toEqual(4000)
+      expect(port).toEqual(3001)
     })
   })
 })
@@ -56,6 +56,6 @@ describe('getPort (host)', () => {
     process.env.HOST = 'localhost'
     portBlocker = await blockPort(3000, 'localhost')
     const port = await getPort()
-    expect(port).toEqual(4000)
+    expect(port).toEqual(3001)
   })
 })

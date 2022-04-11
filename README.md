@@ -41,6 +41,7 @@ interface GetPortOptions {
 
   random?: boolean
   port?: number
+  portRange?: [from: number, to: number]
   ports?: number[]
   host?: string
 
@@ -63,7 +64,11 @@ First port to check. Default is `process.env.PORT || 3000`
 
 ### `ports`
 
-Alternative ports to check. Default is `[4000, 5000, 7000, 8000]`
+Alternative ports to check.
+
+### `portRange`
+
+Alternative port range to check. Deefault is `[3000,3100]`
 
 ### `host`
 

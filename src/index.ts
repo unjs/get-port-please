@@ -10,6 +10,7 @@ export interface GetPortOptions {
   random: boolean
   port: number
   ports: number[]
+  portRange: [from: number, to: number]
   host: string
   memoDir: string
   memoName: string
@@ -29,7 +30,8 @@ export async function getPort (config?: GetPortInput): Promise<PortNumber> {
     name: 'default',
     random: false,
     port: parseInt(process.env.PORT || '') || 3000,
-    ports: [4000, 5000, 7000, 8000],
+    ports: [],
+    portRange: [3000, 3100],
     host: undefined,
     memoName: 'port',
     ...config
@@ -40,9 +42,11 @@ export async function getPort (config?: GetPortInput): Promise<PortNumber> {
   }
 
   // Ports to check
+
   const portsToCheck: PortNumber[] = [
     options.port,
-    ...options.ports
+    ...options.ports,
+    ...generateRange(options.portRange[0], options.portRange[1])
   ].filter(port => port && isSafePort(port))
 
   // Memo
@@ -107,6 +111,17 @@ export async function checkPort (port: PortNumber, host: HostAddress | HostAddre
 }
 
 // ----- Internal -----
+
+function generateRange (from: number, to: number): number[] {
+  if (to < from) {
+    return []
+  }
+  const r = []
+  for (let i = from; i < to; i++) {
+    r.push(i)
+  }
+  return r
+}
 
 function _checkPort (port: PortNumber, host: HostAddress): Promise<PortNumber|false> {
   return new Promise((resolve) => {
