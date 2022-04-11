@@ -19,8 +19,8 @@
     "build": "unbuild",
     "lint": "eslint --ext ts .",
     "prepack": "unbuild",
-    "release": "yarn build && standard-version && npm publish && git push --follow-tags",
-    "test": "vitest"
+    "release": "pnpm build && standard-version && pnpm publish && git push --follow-tags",
+    "test": "pnpm lint && vitest run"
   },
   "dependencies": {
     "fs-memo": "^1.2.0"
@@ -34,5 +34,6 @@
     "typescript": "latest",
     "unbuild": "latest",
     "vitest": "^0.5.5"
-  }
+  },
+  "packageManager": "pnpm@6.32.3"
 }
