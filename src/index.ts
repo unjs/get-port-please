@@ -1,6 +1,7 @@
 import { createServer, AddressInfo } from 'net'
 import { networkInterfaces } from 'os'
 import { getMemo, setMemo } from 'fs-memo'
+import { isMacOS } from 'std-env'
 
 export interface GetPortOptions {
   name: string
@@ -26,7 +27,7 @@ export async function getPort (config?: GetPortInput): Promise<PortNumber> {
     name: 'default',
     random: false,
     port: parseInt(process.env.PORT || '') || 3000,
-    ports: [4000, 5000, 6000, 7000],
+    ports: [4000, 5000, !isMacOS && 6000, 7000].filter(Boolean),
     host: undefined,
     memoName: 'port',
     ...config
