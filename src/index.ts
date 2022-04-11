@@ -1,6 +1,9 @@
 import { createServer, AddressInfo } from 'net'
 import { networkInterfaces } from 'os'
 import { getMemo, setMemo } from 'fs-memo'
+import { isSafePort } from './unsafe-ports'
+
+export { isUnsafePort, isSafePort } from './unsafe-ports'
 
 export interface GetPortOptions {
   name: string
@@ -26,7 +29,7 @@ export async function getPort (config?: GetPortInput): Promise<PortNumber> {
     name: 'default',
     random: false,
     port: parseInt(process.env.PORT || '') || 3000,
-    ports: [4000, 5000, 6000, 7000],
+    ports: [4000, 5000, 7000, 8000],
     host: undefined,
     memoName: 'port',
     ...config
@@ -40,7 +43,7 @@ export async function getPort (config?: GetPortInput): Promise<PortNumber> {
   const portsToCheck: PortNumber[] = [
     options.port,
     ...options.ports
-  ].filter(Boolean)
+  ].filter(port => port && isSafePort(port))
 
   // Memo
   const memoOptions = { name: options.memoName, dir: options.memoDir! }
@@ -112,14 +115,14 @@ function _checkPort (port: PortNumber, host: HostAddress): Promise<PortNumber|fa
     server.on('error', (err: Error & { code: string }) => {
       // Ignore invalid host
       if (err.code === 'EINVAL' || err.code === 'EADDRNOTAVAIL') {
-        resolve(port !== 0 ? port : false)
+        resolve(port !== 0 && isSafePort(port) && port)
       } else {
         resolve(false)
       }
     })
     server.listen({ port, host }, () => {
       const { port } = server.address() as AddressInfo
-      server.close(() => { resolve(port) })
+      server.close(() => { resolve(isSafePort(port) && port) })
     })
   })
 }
