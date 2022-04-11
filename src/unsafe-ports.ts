@@ -60,6 +60,8 @@ const unsafePorts = new Set([
   587, // smtp (rfc6409)
   601, // syslog-conn (rfc3195)
   636, // ldap+ssl
+  989, // ftps-data
+  990, // ftps
   993, // ldap+ssl
   995, // pop3+ssl
   1719, // h323gatestat
