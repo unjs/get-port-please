@@ -1,7 +1,6 @@
 import { createServer, AddressInfo } from 'net'
 import { networkInterfaces } from 'os'
 import { getMemo, setMemo } from 'fs-memo'
-import { isMacOS } from 'std-env'
 
 export interface GetPortOptions {
   name: string
@@ -27,7 +26,7 @@ export async function getPort (config?: GetPortInput): Promise<PortNumber> {
     name: 'default',
     random: false,
     port: parseInt(process.env.PORT || '') || 3000,
-    ports: [4000, 5000, !isMacOS && 6000, 7000].filter(Boolean),
+    ports: [4000, 5000, 7000, 8000],
     host: undefined,
     memoName: 'port',
     ...config
@@ -41,7 +40,7 @@ export async function getPort (config?: GetPortInput): Promise<PortNumber> {
   const portsToCheck: PortNumber[] = [
     options.port,
     ...options.ports
-  ].filter(Boolean)
+  ].filter(port => port && isSafePort(port))
 
   // Memo
   const memoOptions = { name: options.memoName, dir: options.memoDir! }
@@ -106,6 +105,90 @@ export async function checkPort (port: PortNumber, host: HostAddress | HostAddre
 
 // ----- Internal -----
 
+// https://dheeruthedeployer.medium.com/unsafe-ports-considered-by-chrome-6f447b7e4714
+const unsafePorts = [
+  1, // tcpmux
+  7, // echo
+  9, // discard
+  11, // systat
+  13, // daytime
+  15, // netstat
+  17, // qotd
+  19, // chargen
+  20, // ftp data
+  21, // ftp access
+  22, // ssh
+  23, // telnet
+  25, // smtp
+  37, // time
+  42, // name
+  43, // nicname
+  53, // domain
+  69, // tftp
+  77, // priv-rjs
+  79, // finger
+  87, // ttylink
+  95, // supdup
+  101, // hostriame
+  102, // iso-tsap
+  103, // gppitnp
+  104, // acr-nema
+  109, // pop2
+  110, // pop3
+  111, // sunrpc
+  113, // auth
+  115, // sftp
+  117, // uucp-path
+  119, // nntp
+  123, // NTP
+  135, // loc-srv /epmap
+  137, // netbios
+  139, // netbios
+  143, // imap2
+  161, // snmp
+  179, // BGP
+  389, // ldap
+  427, // SLP (Also used by Apple Filing Protocol)
+  465, // smtp+ssl
+  512, // print / exec
+  513, // login
+  514, // shell
+  515, // printer
+  526, // tempo
+  530, // courier
+  531, // chat
+  532, // netnews
+  540, // uucp
+  548, // AFP (Apple Filing Protocol)
+  554, // rtsp
+  556, // remotefs
+  563, // nntp+ssl
+  587, // smtp (rfc6409)
+  601, // syslog-conn (rfc3195)
+  636, // ldap+ssl
+  993, // ldap+ssl
+  995, // pop3+ssl
+  1719, // h323gatestat
+  1720, // h323hostcall
+  1723, // pptp
+  2049, // nfs
+  3659, // apple-sasl / PasswordServer
+  4045, // lockd
+  5060, // sip
+  5061, // sips
+  6000, // X11
+  6566, // sane-port
+  6665, // Alternate IRC [Apple addition]
+  6666, // Alternate IRC [Apple addition]
+  6667, // Standard IRC [Apple addition]
+  6668, // Alternate IRC [Apple addition]
+  6669, // Alternate IRC [Apple addition]
+  6697, // IRC + TLS
+  10080 // Amanda
+]
+
+const isSafePort = (port: number) => !unsafePorts.includes(port)
+
 function _checkPort (port: PortNumber, host: HostAddress): Promise<PortNumber|false> {
   return new Promise((resolve) => {
     const server = createServer()
@@ -113,14 +196,14 @@ function _checkPort (port: PortNumber, host: HostAddress): Promise<PortNumber|fa
     server.on('error', (err: Error & { code: string }) => {
       // Ignore invalid host
       if (err.code === 'EINVAL' || err.code === 'EADDRNOTAVAIL') {
-        resolve(port !== 0 ? port : false)
+        resolve(port !== 0 && isSafePort(port) && port)
       } else {
         resolve(false)
       }
     })
     server.listen({ port, host }, () => {
       const { port } = server.address() as AddressInfo
-      server.close(() => { resolve(port) })
+      server.close(() => { resolve(isSafePort(port) && port) })
     })
   })
 }

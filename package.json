@@ -23,8 +23,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "fs-memo": "^1.2.0",
-    "std-env": "^3.0.1"
+    "fs-memo": "^1.2.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "latest",

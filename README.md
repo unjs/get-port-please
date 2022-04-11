@@ -63,7 +63,7 @@ First port to check. Default is `process.env.PORT || 3000`
 
 ### `ports`
 
-Alternative ports to check. Default is `[4000, 5000, 6000, 7000]`
+Alternative ports to check. Default is `[4000, 5000, 7000, 8000]`
 
 ### `host`
 
