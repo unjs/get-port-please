@@ -14,7 +14,7 @@ Install package:
 ```bash
 yarn add get-port-please
 # or
-or npm install get-port-please
+npm install get-port-please
 ```
 
 ```js
