@@ -68,7 +68,7 @@ Alternative ports to check.
 
 ### `portRange`
 
-Alternative port range to check. Default is `[3000,3100]`
+Alternative port range to check. Default is `[3000, 3100]`
 
 ### `host`
 
