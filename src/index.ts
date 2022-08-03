@@ -14,12 +14,18 @@ export interface GetPortOptions {
   host: string
   memoDir: string
   memoName: string
+  verbose?: boolean
 }
 
 export type GetPortInput = Partial<GetPortOptions> | number | string
 
 export type HostAddress = undefined | string
 export type PortNumber = number
+
+function log (...args) {
+  // eslint-disable-next-line no-console
+  console.log('[get-port]', ...args)
+}
 
 export async function getPort (config?: GetPortInput): Promise<PortNumber> {
   if (typeof config === 'number' || typeof config === 'string') {
@@ -34,6 +40,7 @@ export async function getPort (config?: GetPortInput): Promise<PortNumber> {
     portRange: [3000, 3100],
     host: undefined,
     memoName: 'port',
+    verbose: false,
     ...config
   } as GetPortOptions
 
@@ -47,7 +54,18 @@ export async function getPort (config?: GetPortInput): Promise<PortNumber> {
     options.port,
     ...options.ports,
     ...generateRange(options.portRange[0], options.portRange[1])
-  ].filter(port => port && isSafePort(port))
+  ].filter((port) => {
+    if (!port) {
+      return false
+    }
+    if (!isSafePort(port)) {
+      if (options.verbose) {
+        log('Ignoring unsafe port:', port)
+      }
+      return false
+    }
+    return true
+  })
 
   // Memo
   const memoOptions = { name: options.memoName, dir: options.memoDir! }
@@ -58,7 +76,7 @@ export async function getPort (config?: GetPortInput): Promise<PortNumber> {
   }
 
   // Try to find a port
-  const availablePort = await findPort(portsToCheck, options.host)
+  const availablePort = await findPort(portsToCheck, options.host, options.verbose)
 
   // Persist
   await setMemo({ [memoKey]: availablePort }, memoOptions)
@@ -91,7 +109,7 @@ export async function waitForPort (port: PortNumber, opts: WaitForPortOptions = 
   throw new Error(`Timeout waiting for port ${port} after ${retries} retries with ${delay}ms interval.`)
 }
 
-export async function checkPort (port: PortNumber, host: HostAddress | HostAddress[] = process.env.HOST): Promise<PortNumber|false> {
+export async function checkPort (port: PortNumber, host: HostAddress | HostAddress[] = process.env.HOST, _verbose?: boolean): Promise<PortNumber|false> {
   if (!host) {
     host = getLocalHosts([undefined /* default */, '0.0.0.0'])
   }
@@ -101,6 +119,9 @@ export async function checkPort (port: PortNumber, host: HostAddress | HostAddre
   for (const _host of host) {
     const _port = await _checkPort(port, _host)
     if (_port === false) {
+      if (port < 1024 && _verbose) {
+        log('Unable to listen to priviliged port:', `${_host}:${port}`)
+      }
       return false
     }
     if (port === 0 && _port !== 0) {
@@ -152,9 +173,9 @@ function getLocalHosts (additional?: HostAddress[]): HostAddress[] {
   return Array.from(hosts)
 }
 
-async function findPort (ports: number[], host?: HostAddress): Promise<PortNumber> {
+async function findPort (ports: number[], host?: HostAddress, _verbose?: boolean): Promise<PortNumber> {
   for (const port of ports) {
-    const r = await checkPort(port, host)
+    const r = await checkPort(port, host, _verbose)
     if (r) {
       return r
     }
