@@ -68,7 +68,7 @@ Alternative ports to check.
 
 ### `portRange`
 
-Alternative port range to check. Deefault is `[3000,3100]`
+Alternative port range to check. Default is `[3000, 3100]`
 
 ### `host`
 
@@ -79,7 +79,7 @@ The host to check. Default is `process.env.HOST` otherwise all available hosts w
 Options passed to [fs-memo](https://github.com/unjs/fs-memo)
 
 - Default dir: `node_modules/get-port/dist`
-- Defalt name: `.get-port`
+- Default name: `.get-port`
 
 ## License
 
