@@ -19,10 +19,15 @@ npm install get-port-please
 
 ```js
 // ESM
-import { getPort, checkPort, getRandomPort, waitForPort } from 'get-port-please'
+import {getPort, checkPort, getRandomPort, waitForPort} from 'get-port-please';
 
 // CommonJS
-const { getPort, checkPort, getRandomPort, waitForPort } = require('get-port-please')
+const {
+  getPort,
+  checkPort,
+  getRandomPort,
+  waitForPort,
+} = require('get-port-please');
 ```
 
 ```ts
@@ -37,16 +42,16 @@ Try sequence is: port > ports > memo > random
 
 ```ts
 interface GetPortOptions {
-  name?: string
+  name?: string;
 
-  random?: boolean
-  port?: number
-  portRange?: [from: number, to: number]
-  ports?: number[]
-  host?: string
+  random?: boolean;
+  port?: number;
+  portRange?: [from: number, to: number];
+  ports?: number[];
+  host?: string;
 
-  memoDir?: string
-  memoName?: string
+  memoDir?: string;
+  memoName?: string;
 }
 ```
 
@@ -68,7 +73,7 @@ Alternative ports to check.
 
 ### `portRange`
 
-Alternative port range to check. Deefault is `[3000,3100]`
+Alternative port range to check. Default is `[3000,3100]`
 
 ### `host`
 
@@ -79,7 +84,7 @@ The host to check. Default is `process.env.HOST` otherwise all available hosts w
 Options passed to [fs-memo](https://github.com/unjs/fs-memo)
 
 - Default dir: `node_modules/get-port/dist`
-- Defalt name: `.get-port`
+- Default name: `.get-port`
 
 ## License
 
