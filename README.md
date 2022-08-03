@@ -19,15 +19,10 @@ npm install get-port-please
 
 ```js
 // ESM
-import {getPort, checkPort, getRandomPort, waitForPort} from 'get-port-please';
+import { getPort, checkPort, getRandomPort, waitForPort } from 'get-port-please'
 
 // CommonJS
-const {
-  getPort,
-  checkPort,
-  getRandomPort,
-  waitForPort,
-} = require('get-port-please');
+const { getPort, checkPort, getRandomPort, waitForPort } = require('get-port-please')
 ```
 
 ```ts
@@ -42,16 +37,16 @@ Try sequence is: port > ports > memo > random
 
 ```ts
 interface GetPortOptions {
-  name?: string;
+  name?: string
 
-  random?: boolean;
-  port?: number;
-  portRange?: [from: number, to: number];
-  ports?: number[];
-  host?: string;
+  random?: boolean
+  port?: number
+  portRange?: [from: number, to: number]
+  ports?: number[]
+  host?: string
 
-  memoDir?: string;
-  memoName?: string;
+  memoDir?: string
+  memoName?: string
 }
 ```
 
