@@ -3,6 +3,10 @@ import { networkInterfaces } from 'os'
 import { getMemo, setMemo } from 'fs-memo'
 import { isSafePort } from './unsafe-ports'
 
+const DEFAULT_PORT = 3000
+const PORT_RANGE_START = DEFAULT_PORT
+const PORT_RANGE_END = 3100
+
 export { isUnsafePort, isSafePort } from './unsafe-ports'
 
 export interface GetPortOptions {
@@ -29,9 +33,9 @@ export async function getPort (config?: GetPortInput): Promise<PortNumber> {
   const options = {
     name: 'default',
     random: false,
-    port: parseInt(process.env.PORT || '') || 3000,
+    port: parseInt(process.env.PORT || '') || DEFAULT_PORT,
     ports: [],
-    portRange: [3000, 3100],
+    portRange: [PORT_RANGE_START, PORT_RANGE_END],
     host: undefined,
     memoName: 'port',
     ...config
