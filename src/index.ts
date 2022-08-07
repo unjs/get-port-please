@@ -11,6 +11,7 @@ export interface GetPortOptions {
   port: number
   ports: number[]
   portRange: [from: number, to: number]
+  alternativePortRange: [from: number, to: number]
   host: string
   memoDir: string
   memoName: string
@@ -37,7 +38,8 @@ export async function getPort (config?: GetPortInput): Promise<PortNumber> {
     random: false,
     port: parseInt(process.env.PORT || '') || 3000,
     ports: [],
-    portRange: [3000, 3100],
+    portRange: [],
+    alternativePortRange: [3000, 3100],
     host: undefined,
     memoName: 'port',
     verbose: false,
@@ -76,7 +78,15 @@ export async function getPort (config?: GetPortInput): Promise<PortNumber> {
   }
 
   // Try to find a port
-  const availablePort = await findPort(portsToCheck, options.host, options.verbose)
+  let availablePort = await findPort(portsToCheck, options.host, options.verbose, false)
+
+  // Try fallback port range
+  if (!availablePort) {
+    availablePort = await findPort(options.alternativePortRange, options.host, options.verbose)
+    if (options.verbose) {
+      log(`Unable to find an available port (tried ${portsToCheck.join(', ')}). Using alternative port:`, availablePort)
+    }
+  }
 
   // Persist
   await setMemo({ [memoKey]: availablePort }, memoOptions)
@@ -173,12 +183,20 @@ function getLocalHosts (additional?: HostAddress[]): HostAddress[] {
   return Array.from(hosts)
 }
 
-async function findPort (ports: number[], host?: HostAddress, _verbose?: boolean): Promise<PortNumber> {
+async function findPort (ports: number[], host?: HostAddress, _verbose: boolean = false, _random: boolean = true): Promise<PortNumber> {
   for (const port of ports) {
     const r = await checkPort(port, host, _verbose)
     if (r) {
       return r
     }
   }
-  return getRandomPort(host)
+  if (_random) {
+    const randomPort = await getRandomPort(host)
+    if (_verbose) {
+      log(`Unable to find an available port (tried ${ports.join(', ')}). Using random port:`, randomPort)
+    }
+    return randomPort
+  } else {
+    return 0
+  }
 }
