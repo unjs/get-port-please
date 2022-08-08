@@ -55,7 +55,7 @@ export async function getPort (config?: GetPortInput): Promise<PortNumber> {
   const portsToCheck: PortNumber[] = [
     options.port,
     ...options.ports,
-    ...generateRange(options.portRange[0], options.portRange[1])
+    ...generateRange(...options.portRange)
   ].filter((port) => {
     if (!port) {
       return false
@@ -82,7 +82,7 @@ export async function getPort (config?: GetPortInput): Promise<PortNumber> {
 
   // Try fallback port range
   if (!availablePort) {
-    availablePort = await findPort(options.alternativePortRange, options.host, options.verbose)
+    availablePort = await findPort(generateRange(...options.alternativePortRange), options.host, options.verbose)
     if (options.verbose) {
       log(`Unable to find an available port (tried ${portsToCheck.join(', ')}). Using alternative port:`, availablePort)
     }
