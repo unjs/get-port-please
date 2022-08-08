@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.6.0](https://github.com/unjs/get-port-please/compare/v2.5.0...v2.6.0) (2022-08-08)
+
+
+### Features
+
+* alternative port and verbose logging ([49200e6](https://github.com/unjs/get-port-please/commit/49200e6df6ca6ba9283cc3e7162b44b5ef0906e6))
+* verbose logging (opt-in) ([779f3b7](https://github.com/unjs/get-port-please/commit/779f3b763c2d9ff44bba5594f944b4019d95b2b5))
+
+
+### Bug Fixes
+
+* generate range before passing to findPort ([848a8c2](https://github.com/unjs/get-port-please/commit/848a8c2bb588431861a0d29b243aad6c024f48cf))
+
 ## [2.5.0](https://github.com/unjs/get-port-please/compare/v2.4.3...v2.5.0) (2022-04-11)
 
 
