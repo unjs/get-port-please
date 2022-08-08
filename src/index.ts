@@ -28,22 +28,22 @@ function log (...args) {
   console.log('[get-port]', ...args)
 }
 
-export async function getPort (config?: GetPortInput): Promise<PortNumber> {
+export async function getPort (config: GetPortInput = {}): Promise<PortNumber> {
   if (typeof config === 'number' || typeof config === 'string') {
-    config = { port: parseInt(config + '') }
+    config = { port: parseInt(config + '') || 0 }
   }
 
   const options = {
     name: 'default',
     random: false,
-    port: parseInt(process.env.PORT || '') || 3000,
     ports: [],
     portRange: [],
     alternativePortRange: [3000, 3100],
     host: undefined,
     memoName: 'port',
     verbose: false,
-    ...config
+    ...config,
+    port: parseInt(process.env.PORT || '') || config.port || 3000
   } as GetPortOptions
 
   if (options.random) {
