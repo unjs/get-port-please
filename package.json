@@ -17,9 +17,10 @@
   ],
   "scripts": {
     "build": "unbuild",
+    "dev": "vitest",
     "lint": "eslint --ext ts .",
     "prepack": "unbuild",
-    "release": "pnpm build && standard-version && pnpm publish && git push --follow-tags",
+    "release": "pnpm test && pnpm build && standard-version && pnpm publish && git push --follow-tags",
     "test": "pnpm lint && vitest run"
   },
   "dependencies": {
