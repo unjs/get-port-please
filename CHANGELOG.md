@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.6.1](https://github.com/unjs/get-port-please/compare/v2.6.0...v2.6.1) (2022-08-08)
+
+
+### Bug Fixes
+
+* ignore falsy `config.port` option ([ca34365](https://github.com/unjs/get-port-please/commit/ca343657a02fbfa97fbc0822a18b6cd2f3766032))
+
 ## [2.6.0](https://github.com/unjs/get-port-please/compare/v2.5.0...v2.6.0) (2022-08-08)
 
 
