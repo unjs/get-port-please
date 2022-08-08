@@ -84,7 +84,7 @@ export async function getPort (config?: GetPortInput): Promise<PortNumber> {
   if (!availablePort) {
     availablePort = await findPort(generateRange(...options.alternativePortRange), options.host, options.verbose)
     if (options.verbose) {
-      log(`Unable to find an available port (tried ${portsToCheck.join(', ')}). Using alternative port:`, availablePort)
+      log(`Unable to find an available port (tried ${portsToCheck.join(', ') || '-'}). Using alternative port:`, availablePort)
     }
   }
 
@@ -193,7 +193,7 @@ async function findPort (ports: number[], host?: HostAddress, _verbose: boolean 
   if (_random) {
     const randomPort = await getRandomPort(host)
     if (_verbose) {
-      log(`Unable to find an available port (tried ${ports.join(', ')}). Using random port:`, randomPort)
+      log(`Unable to find an available port (tried ${ports.join(', ') || '-'}). Using random port:`, randomPort)
     }
     return randomPort
   } else {
