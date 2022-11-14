@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/unjs/get-port-please/compare/v2.6.1...v3.0.0) (2022-11-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* no default value for `alternativePortRange` if explicit `port` provided
+* drop memo support
+
+### Bug Fixes
+
+* no default value for `alternativePortRange` if explicit `port` provided ([00366ae](https://github.com/unjs/get-port-please/commit/00366aeae4226de8dd47532137dce39be6297050)), closes [#15](https://github.com/unjs/get-port-please/issues/15)
+
+
+* drop memo support ([bc6f5c5](https://github.com/unjs/get-port-please/commit/bc6f5c5baa99b72fe3136230ba995e6df06b27e9))
+
 ### [2.6.1](https://github.com/unjs/get-port-please/compare/v2.6.0...v2.6.1) (2022-08-08)
 
 
