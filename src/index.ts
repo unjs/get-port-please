@@ -35,7 +35,7 @@ export async function getPort (config: GetPortInput = {}): Promise<PortNumber> {
     random: false,
     ports: [],
     portRange: [],
-    alternativePortRange: [3000, 3100],
+    alternativePortRange: config.port ? [] : [3000, 3100],
     host: undefined,
     verbose: false,
     ...config,
