@@ -31,11 +31,11 @@
     "@types/node": "latest",
     "c8": "latest",
     "eslint": "latest",
-    "jiti": "^1.14.0",
+    "jiti": "^1.16.0",
     "standard-version": "latest",
     "typescript": "latest",
     "unbuild": "latest",
-    "vitest": "^0.21.0"
+    "vitest": "^0.24.0"
   },
-  "packageManager": "pnpm@7.9.0"
+  "packageManager": "pnpm@7.13.3"
 }
