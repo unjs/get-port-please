@@ -31,7 +31,7 @@ checkPort(port: number, host?: string): Promise<number | false>
 waitForPort(port: number, options): Promise<number | false>
 ```
 
-Try sequence is: port > ports > memo > random
+Try sequence is: port > ports > random
 
 ## Options
 
@@ -73,13 +73,6 @@ Alternative port range to check. Default is `[3000, 3100]`
 ### `host`
 
 The host to check. Default is `process.env.HOST` otherwise all available hosts will be checked.
-
-### `memoDir` / `memoName`
-
-Options passed to [fs-memo](https://github.com/unjs/fs-memo)
-
-- Default dir: `node_modules/get-port/dist`
-- Default name: `.get-port`
 
 ## License
 

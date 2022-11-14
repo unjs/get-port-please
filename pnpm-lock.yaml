@@ -5,15 +5,11 @@ specifiers:
   c8: ^7.12.0
   eslint: ^8.27.0
   eslint-config-unjs: ^0.0.2
-  fs-memo: ^1.2.0
   jiti: ^1.16.0
   standard-version: ^9.5.0
   typescript: latest
   unbuild: ^0.9.4
   vitest: ^0.25.2
-
-dependencies:
-  fs-memo: 1.2.0
 
 devDependencies:
   '@types/node': 18.11.9
@@ -2210,10 +2206,6 @@ packages:
       jsonfile: 6.1.0
       universalify: 2.0.0
     dev: true
-
-  /fs-memo/1.2.0:
-    resolution: {integrity: sha512-YEexkCpL4j03jn5SxaMHqcO6IuWuqm8JFUYhyCep7Ao89JIYmB8xoKhK7zXXJ9cCaNXpyNH5L3QtAmoxjoHW2w==}
-    dev: false
 
   /fs.realpath/1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}

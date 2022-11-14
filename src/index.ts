@@ -1,6 +1,5 @@
 import { createServer, AddressInfo } from "node:net";
 import { networkInterfaces } from "node:os";
-import { getMemo, setMemo } from "fs-memo";
 import { isSafePort } from "./unsafe-ports";
 
 export { isUnsafePort, isSafePort } from "./unsafe-ports";
@@ -13,8 +12,6 @@ export interface GetPortOptions {
   portRange: [from: number, to: number]
   alternativePortRange: [from: number, to: number]
   host: string
-  memoDir: string
-  memoName: string
   verbose?: boolean
 }
 
@@ -40,7 +37,6 @@ export async function getPort (config: GetPortInput = {}): Promise<PortNumber> {
     portRange: [],
     alternativePortRange: [3000, 3100],
     host: undefined,
-    memoName: "port",
     verbose: false,
     ...config,
     port: Number.parseInt(process.env.PORT || "") || config.port || 3000
@@ -69,14 +65,6 @@ export async function getPort (config: GetPortInput = {}): Promise<PortNumber> {
     return true;
   });
 
-  // Memo
-  const memoOptions = { name: options.memoName, dir: options.memoDir! };
-  const memoKey = "port_" + options.name;
-  const memo = await getMemo(memoOptions);
-  if (memo[memoKey]) {
-    portsToCheck.push(memo[memoKey]);
-  }
-
   // Try to find a port
   let availablePort = await findPort(portsToCheck, options.host, options.verbose, false);
 
@@ -87,9 +75,6 @@ export async function getPort (config: GetPortInput = {}): Promise<PortNumber> {
       log(`Unable to find an available port (tried ${portsToCheck.join(", ") || "-"}). Using alternative port:`, availablePort);
     }
   }
-
-  // Persist
-  await setMemo({ [memoKey]: availablePort }, memoOptions);
 
   return availablePort;
 }

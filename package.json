@@ -24,9 +24,6 @@
     "release": "pnpm test && pnpm build && standard-version && pnpm publish && git push --follow-tags",
     "test": "pnpm lint && vitest run"
   },
-  "dependencies": {
-    "fs-memo": "^1.2.0"
-  },
   "devDependencies": {
     "@types/node": "^18.11.9",
     "c8": "^7.12.0",
