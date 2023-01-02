@@ -39,7 +39,7 @@ export async function getPort (config: GetPortInput = {}): Promise<PortNumber> {
     host: undefined,
     verbose: false,
     ...config,
-    port: Number.parseInt(process.env.PORT || "") || config.port || 3000
+    port: config.port || Number.parseInt(process.env.PORT || "") || 3000
   } as GetPortOptions;
 
   if (options.random) {
