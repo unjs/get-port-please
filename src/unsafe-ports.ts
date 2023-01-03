@@ -80,13 +80,13 @@ const unsafePorts = new Set([
   6668, // Alternate IRC [Apple addition]
   6669, // Alternate IRC [Apple addition]
   6697, // IRC + TLS
-  10_080 // Amanda
+  10_080, // Amanda
 ]);
 
-export function isUnsafePort (port: number) {
+export function isUnsafePort(port: number) {
   return unsafePorts.has(port);
 }
 
-export function isSafePort (port: number) {
+export function isSafePort(port: number) {
   return !isUnsafePort(port);
 }
