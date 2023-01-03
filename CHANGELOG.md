@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/unjs/get-port-please/compare/v3.0.0...v3.0.1) (2023-01-03)
+
+
+### Bug Fixes
+
+* use `process.env.PORT` as default value if `port` option is missing ([#27](https://github.com/unjs/get-port-please/issues/27)) ([57e1232](https://github.com/unjs/get-port-please/commit/57e1232274fe703d3b3039362d57c9897dae0e38))
+
 ## [3.0.0](https://github.com/unjs/get-port-please/compare/v2.6.1...v3.0.0) (2022-11-14)
 
 
