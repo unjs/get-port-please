@@ -1,20 +1,18 @@
-![get-port-please](https://user-images.githubusercontent.com/904724/101664848-9bc16380-3a4c-11eb-9e3a-faad60c86b2e.png)
-
 # get-port-please
 
-> Get an available TCP port to listen
+Get an available TCP port to listen
 
-[![npm](https://img.shields.io/npm/dt/get-port-please.svg?style=flat-square)](https://npmjs.com/package/get-port-please)
-[![npm (scoped with tag)](https://img.shields.io/npm/v/get-port-please/latest.svg?style=flat-square)](https://npmjs.com/package/get-port-please)
+[![npm version][npm-version-src]][npm-version-href]
+[![npm downloads][npm-downloads-src]][npm-downloads-href]
+[![License][license-src]][license-href]
+[![JSDocs][jsdocs-src]][jsdocs-href]
 
 ## Usage
 
 Install package:
 
 ```bash
-yarn add get-port-please
-# or
-npm install get-port-please
+npm i get-port-please
 ```
 
 ```js
@@ -77,3 +75,15 @@ The host to check. Default is `process.env.HOST` otherwise all available hosts w
 ## License
 
 MIT
+
+<!-- Badges -->
+[npm-version-src]: https://img.shields.io/npm/v/get-port-please?style=flat&colorA=18181B&colorB=F0DB4F
+[npm-version-href]: https://npmjs.com/package/get-port-please
+[npm-downloads-src]: https://img.shields.io/npm/dm/get-port-please?style=flat&colorA=18181B&colorB=F0DB4F
+[npm-downloads-href]: https://npmjs.com/package/get-port-please
+[codecov-src]: https://img.shields.io/codecov/c/gh/unjs/get-port-please/main?style=flat&colorA=18181B&colorB=F0DB4F
+[codecov-href]: https://codecov.io/gh/unjs/get-port-please
+[license-src]: https://img.shields.io/github/license/unjs/get-port-please.svg?style=flat&colorA=18181B&colorB=F0DB4F
+[license-href]: https://github.com/unjs/get-port-please/blob/main/LICENSE
+[jsdocs-src]: https://img.shields.io/badge/jsDocs.io-reference-18181B?style=flat&colorA=18181B&colorB=F0DB4F
+[jsdocs-href]: https://www.jsdocs.io/package/get-port-please
