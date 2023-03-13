@@ -17,10 +17,20 @@ npm i get-port-please
 
 ```js
 // ESM
-import { getPort, checkPort, getRandomPort, waitForPort } from 'get-port-please'
+import {
+  getPort,
+  checkPort,
+  getRandomPort,
+  waitForPort,
+} from "get-port-please";
 
 // CommonJS
-const { getPort, checkPort, getRandomPort, waitForPort } = require('get-port-please')
+const {
+  getPort,
+  checkPort,
+  getRandomPort,
+  waitForPort,
+} = require("get-port-please");
 ```
 
 ```ts
@@ -35,16 +45,16 @@ Try sequence is: port > ports > random
 
 ```ts
 interface GetPortOptions {
-  name?: string
+  name?: string;
 
-  random?: boolean
-  port?: number
-  portRange?: [from: number, to: number]
-  ports?: number[]
-  host?: string
+  random?: boolean;
+  port?: number;
+  portRange?: [from: number, to: number];
+  ports?: number[];
+  host?: string;
 
-  memoDir?: string
-  memoName?: string
+  memoDir?: string;
+  memoName?: string;
 }
 ```
 
@@ -62,11 +72,15 @@ First port to check. Default is `process.env.PORT || 3000`
 
 ### `ports`
 
-Alternative ports to check.
+Extended ports to check.
 
 ### `portRange`
 
-Alternative port range to check. Default is `[3000, 3100]`
+Extended port range to check.
+
+### `alternativePortRange`
+
+Alternative port range to check as fallback when non of the ports are available. Default is `[3000, 3100]` (only when `port` in unspecified.)
 
 ### `host`
 
@@ -77,6 +91,7 @@ The host to check. Default is `process.env.HOST` otherwise all available hosts w
 MIT
 
 <!-- Badges -->
+
 [npm-version-src]: https://img.shields.io/npm/v/get-port-please?style=flat&colorA=18181B&colorB=F0DB4F
 [npm-version-href]: https://npmjs.com/package/get-port-please
 [npm-downloads-src]: https://img.shields.io/npm/dm/get-port-please?style=flat&colorA=18181B&colorB=F0DB4F
