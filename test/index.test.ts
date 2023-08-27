@@ -63,3 +63,11 @@ describe("getPort (host)", () => {
     expect(port3).not.toEqual(3001);
   });
 });
+
+describe("getPort (random)", () => {
+  test('getRandomPort', async () => {
+    const port = await getPort({ random: true });
+    expect(typeof port).toBe("number");
+    expect(port).not.toBe(3000);
+  })
+})
