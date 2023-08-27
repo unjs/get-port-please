@@ -70,7 +70,7 @@ export async function getPort(config: GetPortInput = {}): Promise<PortNumber> {
     portsToCheck,
     options.host,
     options.verbose,
-    false
+    false,
   );
 
   // Try fallback port range
@@ -78,14 +78,14 @@ export async function getPort(config: GetPortInput = {}): Promise<PortNumber> {
     availablePort = await findPort(
       generateRange(...options.alternativePortRange),
       options.host,
-      options.verbose
+      options.verbose,
     );
     if (options.verbose) {
       log(
         `Unable to find an available port (tried ${
           portsToCheck.join(", ") || "-"
         }). Using alternative port:`,
-        availablePort
+        availablePort,
       );
     }
   }
@@ -108,7 +108,7 @@ export interface WaitForPortOptions {
 }
 export async function waitForPort(
   port: PortNumber,
-  options: WaitForPortOptions = {}
+  options: WaitForPortOptions = {},
 ) {
   const delay = options.delay || 500;
   const retries = options.retries || 4;
@@ -119,14 +119,14 @@ export async function waitForPort(
     await new Promise((resolve) => setTimeout(resolve, delay));
   }
   throw new Error(
-    `Timeout waiting for port ${port} after ${retries} retries with ${delay}ms interval.`
+    `Timeout waiting for port ${port} after ${retries} retries with ${delay}ms interval.`,
   );
 }
 
 export async function checkPort(
   port: PortNumber,
   host: HostAddress | HostAddress[] = process.env.HOST,
-  _verbose?: boolean
+  _verbose?: boolean,
 ): Promise<PortNumber | false> {
   if (!host) {
     host = getLocalHosts([undefined /* default */, "0.0.0.0"]);
@@ -164,7 +164,7 @@ function generateRange(from: number, to: number): number[] {
 
 function _checkPort(
   port: PortNumber,
-  host: HostAddress
+  host: HostAddress,
 ): Promise<PortNumber | false> {
   return new Promise((resolve) => {
     const server = createServer();
@@ -200,7 +200,7 @@ async function findPort(
   ports: number[],
   host?: HostAddress,
   _verbose = false,
-  _random = true
+  _random = true,
 ): Promise<PortNumber> {
   for (const port of ports) {
     const r = await checkPort(port, host, _verbose);
@@ -215,7 +215,7 @@ async function findPort(
         `Unable to find an available port (tried ${
           ports.join(", ") || "-"
         }). Using random port:`,
-        randomPort
+        randomPort,
       );
     }
     return randomPort;

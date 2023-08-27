@@ -11,7 +11,7 @@ export function blockPort(port: number, host = "0.0.0.0"): Promise<Server> {
 
 export async function blockPorts(
   ports: number[],
-  host = "0.0.0.0"
+  host = "0.0.0.0",
 ): Promise<Server[]> {
   const portBlockers: Server[] = [];
 

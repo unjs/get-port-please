@@ -1,5 +1,3 @@
 {
-  "extends": [
-    "eslint-config-unjs"
-  ]
+  "extends": ["eslint-config-unjs"]
 }
