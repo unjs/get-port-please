@@ -30,16 +30,18 @@ export async function getPort(config: GetPortInput = {}): Promise<PortNumber> {
     config = { port: Number.parseInt(config + "") || 0 };
   }
 
+  const _port = Number(config.port ?? process.env.PORT ?? 3000);
+
   const options = {
     name: "default",
-    random: false,
+    random: _port === 0,
     ports: [],
     portRange: [],
     alternativePortRange: config.port ? [] : [3000, 3100],
     host: undefined,
     verbose: false,
     ...config,
-    port: config.port || Number.parseInt(process.env.PORT || "") || 3000,
+    port: _port,
   } as GetPortOptions;
 
   if (options.random) {

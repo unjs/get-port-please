@@ -64,10 +64,20 @@ describe("getPort (host)", () => {
   });
 });
 
-describe("getPort (random)", () => {
-  test('getRandomPort', async () => {
+describe("getPort: random", () => {
+  test("{ random: true }", async () => {
     const port = await getPort({ random: true });
     expect(typeof port).toBe("number");
     expect(port).not.toBe(3000);
-  })
-})
+  });
+
+  test("{ port: 0 }", async () => {
+    let port = await getPort({ port: 0 });
+    expect(typeof port).toBe("number");
+    expect(port).not.toBe(3000);
+
+    port = await getPort({ port: "0" as any });
+    expect(typeof port).toBe("number");
+    expect(port).not.toBe(3000);
+  });
+});
