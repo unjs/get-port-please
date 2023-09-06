@@ -3,7 +3,7 @@ import { describe, test, expect, afterEach } from "vitest";
 import { getPort } from "../src";
 import { blockPort } from "./utils";
 
-const isWindows = process.platform === "win32"
+const isWindows = process.platform === "win32";
 
 describe("getPort ()", () => {
   describe("checks ports on default host`", () => {
