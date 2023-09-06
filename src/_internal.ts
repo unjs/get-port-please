@@ -53,7 +53,13 @@ export function _getLocalHosts(additional: HostAddress[]): HostAddress[] {
   const hosts = new Set<HostAddress>(additional);
   for (const _interface of Object.values(networkInterfaces())) {
     for (const config of _interface || []) {
-      hosts.add(config.address);
+      if (
+        config.address &&
+        !config.internal &&
+        !config.address.startsWith("fe80::") // Link-Local
+      ) {
+        hosts.add(config.address);
+      }
     }
   }
   return [...hosts];

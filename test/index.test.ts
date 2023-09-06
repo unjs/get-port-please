@@ -1,6 +1,6 @@
 import { Server } from "node:net";
 import { describe, test, expect, afterEach, vi } from "vitest";
-import { getPort } from "../src";
+import { getPort, getRandomPort } from "../src";
 import { blockPort } from "./utils";
 
 const isWindows = process.platform === "win32";
@@ -66,9 +66,15 @@ describe("getPort (host)", () => {
   });
 });
 
-describe("getPort: random", () => {
+describe("random port", () => {
   test("{ random: true }", async () => {
     const port = await getPort({ random: true });
+    expect(typeof port).toBe("number");
+    expect(port).not.toBe(3000);
+  });
+
+  test("getRandomPort", async () => {
+    const port = await getRandomPort();
     expect(typeof port).toBe("number");
     expect(port).not.toBe(3000);
   });
