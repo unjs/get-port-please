@@ -37,13 +37,8 @@ export function _tryPort(
   return new Promise((resolve) => {
     const server = createServer();
     server.unref();
-    server.on("error", (error: Error & { code: string }) => {
-      // Ignore invalid host
-      if (error.code === "EINVAL" || error.code === "EADDRNOTAVAIL") {
-        resolve(port !== 0 && isSafePort(port) && port);
-      } else {
-        resolve(false);
-      }
+    server.on("error", () => {
+      resolve(false);
     });
     server.listen({ port, host }, () => {
       const { port } = server.address() as AddressInfo;
