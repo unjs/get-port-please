@@ -22,9 +22,10 @@ export type PortNumber = number;
 
 const HOSTNAME_RE = /^(?!-)[\d.A-Za-z-]{1,63}(?<!-)$/;
 
-function log(...arguments_) {
-  // eslint-disable-next-line no-console
-  console.log("[get-port]", ...arguments_);
+function log(showLogs: boolean, message: string) {
+  if (showLogs) {
+    console.log("[get-port]", message);
+  }
 }
 
 export async function getPort(
@@ -56,8 +57,7 @@ export async function getPort(
     return getRandomPort(options.host);
   }
 
-  // Ports to check
-
+  // Generate list of ports to check
   const portsToCheck: PortNumber[] = [
     options.port,
     ...options.ports,
@@ -67,9 +67,7 @@ export async function getPort(
       return false;
     }
     if (!isSafePort(port)) {
-      if (options.verbose) {
-        log("Ignoring unsafe port:", port);
-      }
+      log(options.verbose, `Ignoring unsafe port: ${port}`);
       return false;
     }
     return true;
@@ -83,38 +81,41 @@ export async function getPort(
   );
 
   // Try fallback port range
-  if (!availablePort) {
+  if (!availablePort && options.alternativePortRange.length > 0) {
     availablePort = await findPort(
       generateRange(...options.alternativePortRange),
       options.host,
       options.verbose,
     );
-    if (options.verbose) {
-      log(
-        `Unable to find an available port (tried ${
-          portsToCheck.join(", ") || "-"
-        }). Using alternative port:`,
-        availablePort,
-      );
-    }
+    log(
+      options.verbose,
+      `Unable to find an available port (tried ${options.alternativePortRange.join(
+        "-",
+      )} ${fmtHost(options.host)}). Using alternative port ${availablePort}`,
+    );
   }
 
   // Try random port
   if (!availablePort && _userOptions.random !== false) {
     availablePort = await getRandomPort(options.host);
-    if (availablePort && options.verbose) {
-      log(`Using random port ${availablePort}`);
+    if (availablePort) {
+      log(options.verbose, `Using random port ${availablePort}`);
     }
   }
 
   // Throw error if no port is available
   if (!availablePort) {
-    const range = portsToCheck.join("-");
-    const alternativeRange = options.alternativePortRange.join("-");
+    const triedRanges = [
+      options.port,
+      options.portRange.join("-"),
+      options.alternativePortRange.join("-"),
+    ]
+      .filter(Boolean)
+      .join(", ");
     throw new Error(
       `Unable to find find available port ${fmtHost(
         options.host,
-      )} (tried ${range} and ${alternativeRange})`,
+      )} (tried ${triedRanges})`,
     );
   }
 
@@ -154,7 +155,7 @@ export async function waitForPort(
 export async function checkPort(
   port: PortNumber,
   host: HostAddress | HostAddress[] = process.env.HOST,
-  _verbose?: boolean,
+  verbose?: boolean,
 ): Promise<PortNumber | false> {
   if (!host) {
     host = getLocalHosts([undefined /* default */, "0.0.0.0"]);
@@ -165,11 +166,10 @@ export async function checkPort(
   for (const _host of host) {
     const _port = await _checkPort(port, _host);
     if (_port === false) {
-      if (port < 1024 && _verbose) {
+      if (port < 1024 && verbose) {
         log(
-          `Unable to listen to the priviliged port ${port} on host ${JSON.stringify(
-            _host,
-          )}`,
+          verbose,
+          `Unable to listen to the priviliged port ${port} ${fmtHost(_host)}`,
         );
       }
       return false;

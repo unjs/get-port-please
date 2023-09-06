@@ -107,7 +107,7 @@ describe("errors", () => {
       random: false,
     }).catch((error) => error);
     expect(error.toString()).toMatchInlineSnapshot(
-      '"Error: Unable to find find available port on host \\"192.168.1.999\\" (tried 3000 and 3000-3100)"',
+      '"Error: Unable to find find available port on host \\"192.168.1.999\\" (tried 3000, 3000-3100)"',
     );
   });
 });
