@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v3.1.0
+
+[compare changes](https://github.com/unjs/get-port-please/compare/v3.0.2...v3.1.0)
+
+### 🚀 Enhancements
+
+- Automatically fallback hostname for invalid hosts ([#62](https://github.com/unjs/get-port-please/pull/62))
+
+### 🩹 Fixes
+
+- Validate hostname and improve errors ([#59](https://github.com/unjs/get-port-please/pull/59))
+- Skip all listen errors ([#61](https://github.com/unjs/get-port-please/pull/61))
+
+### 💅 Refactors
+
+- Split internals and types ([cf4317c](https://github.com/unjs/get-port-please/commit/cf4317c))
+
+### 🏡 Chore
+
+- Run tests on windows ([#60](https://github.com/unjs/get-port-please/pull/60))
+- Use changelogen for releases ([7d4d6bb](https://github.com/unjs/get-port-please/commit/7d4d6bb))
+- **release:** V3.0.3 ([86672c4](https://github.com/unjs/get-port-please/commit/86672c4))
+
+### ✅ Tests
+
+- Block host on all interfaces ([5a95184](https://github.com/unjs/get-port-please/commit/5a95184))
+- Skip invalid host tests on windows ([e8b92ac](https://github.com/unjs/get-port-please/commit/e8b92ac))
+
+### 🎨 Styles
+
+- Lint ([1501204](https://github.com/unjs/get-port-please/commit/1501204))
+
+### ❤️ Contributors
+
+- Pooya Parsa ([@pi0](http://github.com/pi0))
+
 ## v3.0.3
 
 [compare changes](https://github.com/unjs/get-port-please/compare/v3.0.2...v3.0.3)
