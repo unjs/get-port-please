@@ -44,7 +44,7 @@ export async function getPort(
   } as GetPortOptions;
 
   if (options.host && !HOSTNAME_RE.test(options.host)) {
-    throw new Error(`Invalid host: ${JSON.stringify(options.host)}`);
+    throw new GetPortError(`Invalid host: ${JSON.stringify(options.host)}`);
   }
 
   if (options.random) {
@@ -106,7 +106,7 @@ export async function getPort(
     ]
       .filter(Boolean)
       .join(", ");
-    throw new Error(
+    throw new GetPortError(
       `Unable to find find available port ${_fmtOnHost(
         options.host,
       )} (tried ${triedRanges})`,
@@ -119,7 +119,9 @@ export async function getPort(
 export async function getRandomPort(host?: HostAddress) {
   const port = await checkPort(0, host);
   if (port === false) {
-    throw new Error(`Unable to find any random port ${_fmtOnHost(host)}`);
+    throw new GetPortError(
+      `Unable to find any random port ${_fmtOnHost(host)}`,
+    );
   }
   return port;
 }
@@ -141,7 +143,7 @@ export async function waitForPort(
     }
     await new Promise((resolve) => setTimeout(resolve, delay));
   }
-  throw new Error(
+  throw new GetPortError(
     `Timeout waiting for port ${port} after ${retries} retries with ${delay}ms interval.`,
   );
 }
@@ -178,6 +180,16 @@ export async function checkPort(
 }
 
 // ----- Internal -----
+
+class GetPortError extends Error {
+  name = "GetPortError";
+  constructor(
+    public message: string,
+    opts?: any,
+  ) {
+    super(message, opts);
+  }
+}
 
 function _log(showLogs: boolean, message: string) {
   if (showLogs) {
