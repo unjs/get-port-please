@@ -61,7 +61,7 @@ export async function getPort(
   const portsToCheck: PortNumber[] = [
     options.port,
     ...options.ports,
-    ...generateRange(...options.portRange),
+    ..._generateRange(...options.portRange),
   ].filter((port) => {
     if (!port) {
       return false;
@@ -74,7 +74,7 @@ export async function getPort(
   });
 
   // Try to find a port
-  let availablePort = await findPort(
+  let availablePort = await _findPort(
     portsToCheck,
     options.host,
     options.verbose,
@@ -82,8 +82,8 @@ export async function getPort(
 
   // Try fallback port range
   if (!availablePort && options.alternativePortRange.length > 0) {
-    availablePort = await findPort(
-      generateRange(...options.alternativePortRange),
+    availablePort = await _findPort(
+      _generateRange(...options.alternativePortRange),
       options.host,
       options.verbose,
     );
@@ -158,7 +158,7 @@ export async function checkPort(
   verbose?: boolean,
 ): Promise<PortNumber | false> {
   if (!host) {
-    host = getLocalHosts([undefined /* default */, "0.0.0.0"]);
+    host = _getLocalHosts([undefined /* default */, "0.0.0.0"]);
   }
   if (!Array.isArray(host)) {
     return _checkPort(port, host);
@@ -183,7 +183,7 @@ export async function checkPort(
 
 // ----- Internal -----
 
-function generateRange(from: number, to: number): number[] {
+function _generateRange(from: number, to: number): number[] {
   if (to < from) {
     return [];
   }
@@ -218,7 +218,7 @@ function _checkPort(
   });
 }
 
-function getLocalHosts(additional: HostAddress[]): HostAddress[] {
+function _getLocalHosts(additional: HostAddress[]): HostAddress[] {
   const hosts = new Set<HostAddress>(additional);
   for (const _interface of Object.values(networkInterfaces())) {
     for (const config of _interface || []) {
@@ -228,7 +228,7 @@ function getLocalHosts(additional: HostAddress[]): HostAddress[] {
   return [...hosts];
 }
 
-async function findPort(
+async function _findPort(
   ports: number[],
   host: HostAddress,
   _verbose: boolean,
