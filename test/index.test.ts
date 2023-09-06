@@ -81,3 +81,33 @@ describe("getPort: random", () => {
     expect(port).not.toBe(3000);
   });
 });
+
+describe("errors", () => {
+  test("invalid hostname", async () => {
+    const error = await getPort({ host: "http://localhost:8080" }).catch(
+      (error) => error,
+    );
+    expect(error.toString()).toMatchInlineSnapshot(
+      '"GetPortError: Invalid host: \\"http://localhost:8080\\""',
+    );
+  });
+
+  test("unavailable hostname", async () => {
+    const error = await getPort({
+      host: "192.168.1.999",
+    }).catch((error) => error);
+    expect(error.toString()).toMatchInlineSnapshot(
+      '"GetPortError: Unable to find any random port on host \\"192.168.1.999\\""',
+    );
+  });
+
+  test("unavailable hostname (no random)", async () => {
+    const error = await getPort({
+      host: "192.168.1.999",
+      random: false,
+    }).catch((error) => error);
+    expect(error.toString()).toMatchInlineSnapshot(
+      '"GetPortError: Unable to find find available port on host \\"192.168.1.999\\" (tried 3000, 3000-3100)"',
+    );
+  });
+});

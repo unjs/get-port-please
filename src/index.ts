@@ -20,76 +20,97 @@ export type GetPortInput = Partial<GetPortOptions> | number | string;
 export type HostAddress = undefined | string;
 export type PortNumber = number;
 
-function log(...arguments_) {
-  // eslint-disable-next-line no-console
-  console.log("[get-port]", ...arguments_);
-}
+const HOSTNAME_RE = /^(?!-)[\d.A-Za-z-]{1,63}(?<!-)$/;
 
-export async function getPort(config: GetPortInput = {}): Promise<PortNumber> {
-  if (typeof config === "number" || typeof config === "string") {
-    config = { port: Number.parseInt(config + "") || 0 };
+export async function getPort(
+  _userOptions: GetPortInput = {},
+): Promise<PortNumber> {
+  if (typeof _userOptions === "number" || typeof _userOptions === "string") {
+    _userOptions = { port: Number.parseInt(_userOptions + "") || 0 };
   }
 
-  const _port = Number(config.port ?? process.env.PORT ?? 3000);
+  const _port = Number(_userOptions.port ?? process.env.PORT ?? 3000);
 
   const options = {
     name: "default",
     random: _port === 0,
     ports: [],
     portRange: [],
-    alternativePortRange: config.port ? [] : [3000, 3100],
+    alternativePortRange: _userOptions.port ? [] : [3000, 3100],
     host: undefined,
     verbose: false,
-    ...config,
+    ..._userOptions,
     port: _port,
   } as GetPortOptions;
+
+  if (options.host && !HOSTNAME_RE.test(options.host)) {
+    throw new GetPortError(`Invalid host: ${JSON.stringify(options.host)}`);
+  }
 
   if (options.random) {
     return getRandomPort(options.host);
   }
 
-  // Ports to check
-
+  // Generate list of ports to check
   const portsToCheck: PortNumber[] = [
     options.port,
     ...options.ports,
-    ...generateRange(...options.portRange),
+    ..._generateRange(...options.portRange),
   ].filter((port) => {
     if (!port) {
       return false;
     }
     if (!isSafePort(port)) {
-      if (options.verbose) {
-        log("Ignoring unsafe port:", port);
-      }
+      _log(options.verbose, `Ignoring unsafe port: ${port}`);
       return false;
     }
     return true;
   });
 
   // Try to find a port
-  let availablePort = await findPort(
+  let availablePort = await _findPort(
     portsToCheck,
     options.host,
     options.verbose,
-    false,
   );
 
   // Try fallback port range
-  if (!availablePort) {
-    availablePort = await findPort(
-      generateRange(...options.alternativePortRange),
+  if (!availablePort && options.alternativePortRange.length > 0) {
+    availablePort = await _findPort(
+      _generateRange(...options.alternativePortRange),
       options.host,
       options.verbose,
     );
-    if (options.verbose) {
-      log(
-        `Unable to find an available port (tried ${
-          portsToCheck.join(", ") || "-"
-        }). Using alternative port:`,
-        availablePort,
-      );
+    _log(
+      options.verbose,
+      `Unable to find an available port (tried ${options.alternativePortRange.join(
+        "-",
+      )} ${_fmtOnHost(options.host)}). Using alternative port ${availablePort}`,
+    );
+  }
+
+  // Try random port
+  if (!availablePort && _userOptions.random !== false) {
+    availablePort = await getRandomPort(options.host);
+    if (availablePort) {
+      _log(options.verbose, `Using random port ${availablePort}`);
     }
+  }
+
+  // Throw error if no port is available
+  if (!availablePort) {
+    const triedRanges = [
+      options.port,
+      options.portRange.join("-"),
+      options.alternativePortRange.join("-"),
+    ]
+      .filter(Boolean)
+      .join(", ");
+    throw new GetPortError(
+      `Unable to find find available port ${_fmtOnHost(
+        options.host,
+      )} (tried ${triedRanges})`,
+    );
   }
 
   return availablePort;
@@ -98,7 +119,9 @@ export async function getPort(config: GetPortInput = {}): Promise<PortNumber> {
 export async function getRandomPort(host?: HostAddress) {
   const port = await checkPort(0, host);
   if (port === false) {
-    throw new Error("Unable to obtain an available random port number!");
+    throw new GetPortError(
+      `Unable to find any random port ${_fmtOnHost(host)}`,
+    );
   }
   return port;
 }
@@ -120,7 +143,7 @@ export async function waitForPort(
     }
     await new Promise((resolve) => setTimeout(resolve, delay));
   }
-  throw new Error(
+  throw new GetPortError(
     `Timeout waiting for port ${port} after ${retries} retries with ${delay}ms interval.`,
   );
 }
@@ -128,10 +151,10 @@ export async function waitForPort(
 export async function checkPort(
   port: PortNumber,
   host: HostAddress | HostAddress[] = process.env.HOST,
-  _verbose?: boolean,
+  verbose?: boolean,
 ): Promise<PortNumber | false> {
   if (!host) {
-    host = getLocalHosts([undefined /* default */, "0.0.0.0"]);
+    host = _getLocalHosts([undefined /* default */, "0.0.0.0"]);
   }
   if (!Array.isArray(host)) {
     return _checkPort(port, host);
@@ -139,8 +162,13 @@ export async function checkPort(
   for (const _host of host) {
     const _port = await _checkPort(port, _host);
     if (_port === false) {
-      if (port < 1024 && _verbose) {
-        log("Unable to listen to priviliged port:", `${_host}:${port}`);
+      if (port < 1024 && verbose) {
+        _log(
+          verbose,
+          `Unable to listen to the priviliged port ${port} ${_fmtOnHost(
+            _host,
+          )}`,
+        );
       }
       return false;
     }
@@ -153,7 +181,23 @@ export async function checkPort(
 
 // ----- Internal -----
 
-function generateRange(from: number, to: number): number[] {
+class GetPortError extends Error {
+  name = "GetPortError";
+  constructor(
+    public message: string,
+    opts?: any,
+  ) {
+    super(message, opts);
+  }
+}
+
+function _log(showLogs: boolean, message: string) {
+  if (showLogs) {
+    console.log("[get-port]", message);
+  }
+}
+
+function _generateRange(from: number, to: number): number[] {
   if (to < from) {
     return [];
   }
@@ -188,7 +232,7 @@ function _checkPort(
   });
 }
 
-function getLocalHosts(additional?: HostAddress[]): HostAddress[] {
+function _getLocalHosts(additional: HostAddress[]): HostAddress[] {
   const hosts = new Set<HostAddress>(additional);
   for (const _interface of Object.values(networkInterfaces())) {
     for (const config of _interface || []) {
@@ -198,11 +242,10 @@ function getLocalHosts(additional?: HostAddress[]): HostAddress[] {
   return [...hosts];
 }
 
-async function findPort(
+async function _findPort(
   ports: number[],
-  host?: HostAddress,
-  _verbose = false,
-  _random = true,
+  host: HostAddress,
+  _verbose: boolean,
 ): Promise<PortNumber> {
   for (const port of ports) {
     const r = await checkPort(port, host, _verbose);
@@ -210,18 +253,8 @@ async function findPort(
       return r;
     }
   }
-  if (_random) {
-    const randomPort = await getRandomPort(host);
-    if (_verbose) {
-      log(
-        `Unable to find an available port (tried ${
-          ports.join(", ") || "-"
-        }). Using random port:`,
-        randomPort,
-      );
-    }
-    return randomPort;
-  } else {
-    return 0;
-  }
+}
+
+function _fmtOnHost(hostname: string | undefined) {
+  return hostname ? `on host ${JSON.stringify(hostname)}` : "on any host";
 }
