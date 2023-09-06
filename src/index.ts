@@ -103,7 +103,7 @@ export async function getPort(
   if (!availablePort && _userOptions.random !== false) {
     availablePort = await getRandomPort(options.host);
     if (availablePort && options.verbose) {
-      log("Using random port");
+      log(`Using random port ${availablePort}`);
     }
   }
 
