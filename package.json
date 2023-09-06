@@ -22,17 +22,17 @@
     "lint": "eslint --ext ts . && prettier -c src test",
     "lint:fix": "eslint --fix --ext ts . && prettier -w src test",
     "prepack": "unbuild",
-    "release": "pnpm test && pnpm build && standard-version && pnpm publish && git push --follow-tags",
+    "release": "pnpm test && pnpm build && changelogen --release --push && pnpm publish",
     "test": "pnpm lint && vitest run"
   },
   "devDependencies": {
     "@types/node": "^20.5.9",
     "@vitest/coverage-v8": "^0.34.3",
+    "changelogen": "^0.5.5",
     "eslint": "^8.48.0",
     "eslint-config-unjs": "^0.2.1",
     "jiti": "^1.19.3",
     "prettier": "^3.0.3",
-    "standard-version": "^9.5.0",
     "typescript": "^5.2.2",
     "unbuild": "^2.0.0",
     "vitest": "^0.34.3"
