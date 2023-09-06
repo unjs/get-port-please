@@ -7,6 +7,7 @@ export interface GetPortOptions {
   alternativePortRange: [from: number, to: number];
   host: string;
   verbose?: boolean;
+  public?: boolean;
 }
 
 export interface WaitForPortOptions {

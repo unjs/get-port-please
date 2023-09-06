@@ -1,5 +1,5 @@
 import { Server } from "node:net";
-import { describe, test, expect, afterEach } from "vitest";
+import { describe, test, expect, afterEach, vi } from "vitest";
 import { getPort } from "../src";
 import { blockPort } from "./utils";
 
@@ -86,15 +86,30 @@ describe("getPort: random", () => {
 
 describe("errors", () => {
   test("invalid hostname", async () => {
-    const error = await getPort({ host: "http://localhost:8080" }).catch(
+    vi.spyOn(console, "log");
+    await getPort({ host: "http://localhost:8080", verbose: true }).catch(
       (error) => error,
     );
-    expect(error.toString()).toMatchInlineSnapshot(
-      '"GetPortError: Invalid host: \\"http://localhost:8080\\""',
+    expect(console.log).toHaveBeenCalledWith(
+      '[get-port] Invalid hostname: "http://localhost:8080". Using "127.0.0.1"',
     );
+    vi.resetAllMocks();
   });
 
-  test.skipIf(isWindows)("unavailable hostname", async () => {
+  test("invalid hostname (public)", async () => {
+    vi.spyOn(console, "log");
+    await getPort({
+      host: "http://localhost:8080",
+      verbose: true,
+      public: true,
+    }).catch((error) => error);
+    expect(console.log).toHaveBeenCalledWith(
+      '[get-port] Invalid hostname: "http://localhost:8080". Using "0.0.0.0"',
+    );
+    vi.resetAllMocks();
+  });
+
+  test.skipIf(isWindows)("unavailable port", async () => {
     const error = await getPort({
       host: "192.168.1.999",
     }).catch((error) => error);
@@ -103,7 +118,7 @@ describe("errors", () => {
     );
   });
 
-  test.skipIf(isWindows)("unavailable hostname (no random)", async () => {
+  test.skipIf(isWindows)("unavailable port (no random)", async () => {
     const error = await getPort({
       host: "192.168.1.999",
       random: false,
