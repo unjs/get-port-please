@@ -22,12 +22,6 @@ export type PortNumber = number;
 
 const HOSTNAME_RE = /^(?!-)[\d.A-Za-z-]{1,63}(?<!-)$/;
 
-function log(showLogs: boolean, message: string) {
-  if (showLogs) {
-    console.log("[get-port]", message);
-  }
-}
-
 export async function getPort(
   _userOptions: GetPortInput = {},
 ): Promise<PortNumber> {
@@ -67,7 +61,7 @@ export async function getPort(
       return false;
     }
     if (!isSafePort(port)) {
-      log(options.verbose, `Ignoring unsafe port: ${port}`);
+      _log(options.verbose, `Ignoring unsafe port: ${port}`);
       return false;
     }
     return true;
@@ -87,7 +81,7 @@ export async function getPort(
       options.host,
       options.verbose,
     );
-    log(
+    _log(
       options.verbose,
       `Unable to find an available port (tried ${options.alternativePortRange.join(
         "-",
@@ -99,7 +93,7 @@ export async function getPort(
   if (!availablePort && _userOptions.random !== false) {
     availablePort = await getRandomPort(options.host);
     if (availablePort) {
-      log(options.verbose, `Using random port ${availablePort}`);
+      _log(options.verbose, `Using random port ${availablePort}`);
     }
   }
 
@@ -167,7 +161,7 @@ export async function checkPort(
     const _port = await _checkPort(port, _host);
     if (_port === false) {
       if (port < 1024 && verbose) {
-        log(
+        _log(
           verbose,
           `Unable to listen to the priviliged port ${port} ${_fmtOnHost(
             _host,
@@ -184,6 +178,12 @@ export async function checkPort(
 }
 
 // ----- Internal -----
+
+function _log(showLogs: boolean, message: string) {
+  if (showLogs) {
+    console.log("[get-port]", message);
+  }
+}
 
 function _generateRange(from: number, to: number): number[] {
   if (to < from) {
