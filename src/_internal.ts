@@ -15,7 +15,7 @@ export class GetPortError extends Error {
 
 export function _log(verbose: boolean, message: string) {
   if (verbose) {
-    console.log("[get-port]", message);
+    console.log(`[get-port] ${message}`);
   }
 }
 
@@ -77,9 +77,20 @@ export function _fmtOnHost(hostname: string | undefined) {
 
 const HOSTNAME_RE = /^(?!-)[\d.A-Za-z-]{1,63}(?<!-)$/;
 
-export function _validateHostname(hostname: string | undefined) {
+export function _validateHostname(
+  hostname: string | undefined,
+  _public: boolean,
+  verbose: boolean,
+) {
   if (hostname && !HOSTNAME_RE.test(hostname)) {
-    throw new GetPortError(`Invalid host: ${JSON.stringify(hostname)}`);
+    const fallbackHost = _public ? "0.0.0.0" : "127.0.0.1";
+    _log(
+      verbose,
+      `Invalid hostname: ${JSON.stringify(hostname)}. Using ${JSON.stringify(
+        fallbackHost,
+      )}`,
+    );
+    return fallbackHost;
   }
   return hostname;
 }

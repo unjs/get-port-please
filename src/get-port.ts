@@ -37,7 +37,11 @@ export async function getPort(
     verbose: false,
     ..._userOptions,
     port: _port,
-    host: _validateHostname(_userOptions.host ?? process.env.HOST),
+    host: _validateHostname(
+      _userOptions.host ?? process.env.HOST,
+      _userOptions.public,
+      _userOptions.verbose,
+    ),
   } as GetPortOptions;
 
   if (options.random) {
