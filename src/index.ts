@@ -91,7 +91,7 @@ export async function getPort(
       options.verbose,
       `Unable to find an available port (tried ${options.alternativePortRange.join(
         "-",
-      )} ${fmtHost(options.host)}). Using alternative port ${availablePort}`,
+      )} ${_fmtOnHost(options.host)}). Using alternative port ${availablePort}`,
     );
   }
 
@@ -113,7 +113,7 @@ export async function getPort(
       .filter(Boolean)
       .join(", ");
     throw new Error(
-      `Unable to find find available port ${fmtHost(
+      `Unable to find find available port ${_fmtOnHost(
         options.host,
       )} (tried ${triedRanges})`,
     );
@@ -125,7 +125,7 @@ export async function getPort(
 export async function getRandomPort(host?: HostAddress) {
   const port = await checkPort(0, host);
   if (port === false) {
-    throw new Error(`Unable to find any random port ${fmtHost(host)}`);
+    throw new Error(`Unable to find any random port ${_fmtOnHost(host)}`);
   }
   return port;
 }
@@ -169,7 +169,9 @@ export async function checkPort(
       if (port < 1024 && verbose) {
         log(
           verbose,
-          `Unable to listen to the priviliged port ${port} ${fmtHost(_host)}`,
+          `Unable to listen to the priviliged port ${port} ${_fmtOnHost(
+            _host,
+          )}`,
         );
       }
       return false;
@@ -241,6 +243,6 @@ async function _findPort(
   }
 }
 
-function fmtHost(hostname: string | undefined) {
+function _fmtOnHost(hostname: string | undefined) {
   return hostname ? `on host ${JSON.stringify(hostname)}` : "on any host";
 }
