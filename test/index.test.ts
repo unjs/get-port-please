@@ -3,6 +3,8 @@ import { describe, test, expect, afterEach } from "vitest";
 import { getPort } from "../src";
 import { blockPort } from "./utils";
 
+const isWindows = process.platform === "win32"
+
 describe("getPort ()", () => {
   describe("checks ports on default host`", () => {
     let portBlocker: Server;
@@ -92,7 +94,7 @@ describe("errors", () => {
     );
   });
 
-  test("unavailable hostname", async () => {
+  test.skipIf(isWindows)("unavailable hostname", async () => {
     const error = await getPort({
       host: "192.168.1.999",
     }).catch((error) => error);
@@ -101,7 +103,7 @@ describe("errors", () => {
     );
   });
 
-  test("unavailable hostname (no random)", async () => {
+  test.skipIf(isWindows)("unavailable hostname (no random)", async () => {
     const error = await getPort({
       host: "192.168.1.999",
       random: false,
