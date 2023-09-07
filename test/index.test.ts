@@ -42,6 +42,14 @@ describe("getPort", () => {
       expect(port3).not.toEqual(3001);
     });
   });
+
+  describe("ipv6", () => {
+    test("get port on ::1", async () => {
+      await blockPort(3000, "::1");
+      const port = await getPort({ host: "::1" });
+      expect(port).not.toBe(3000);
+    });
+  });
 });
 
 describe("random port", () => {

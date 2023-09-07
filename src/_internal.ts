@@ -81,7 +81,7 @@ export function _fmtOnHost(hostname: string | undefined) {
   return hostname ? `on host ${JSON.stringify(hostname)}` : "on any host";
 }
 
-const HOSTNAME_RE = /^(?!-)[\d.A-Za-z-]{1,63}(?<!-)$/;
+const HOSTNAME_RE = /^(?!-)[\d.:A-Za-z-]{1,63}(?<!-)$/;
 
 export function _validateHostname(
   hostname: string | undefined,
