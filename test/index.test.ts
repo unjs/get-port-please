@@ -83,7 +83,7 @@ describe("errors", () => {
       (error) => error,
     );
     expect(console.log).toHaveBeenCalledWith(
-      '[get-port] Invalid hostname: "http://localhost:8080". Using "127.0.0.1"',
+      '[get-port] Invalid hostname: "http://localhost:8080". Using "127.0.0.1" as fallback.',
     );
     vi.resetAllMocks();
   });
@@ -96,7 +96,7 @@ describe("errors", () => {
       public: true,
     }).catch((error) => error);
     expect(console.log).toHaveBeenCalledWith(
-      '[get-port] Invalid hostname: "http://localhost:8080". Using "0.0.0.0"',
+      '[get-port] Invalid hostname: "http://localhost:8080". Using "0.0.0.0" as fallback.',
     );
     vi.resetAllMocks();
   });

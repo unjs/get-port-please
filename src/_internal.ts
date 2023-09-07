@@ -94,7 +94,7 @@ export function _validateHostname(
       verbose,
       `Invalid hostname: ${JSON.stringify(hostname)}. Using ${JSON.stringify(
         fallbackHost,
-      )}`,
+      )} as fallback.`,
     );
     return fallbackHost;
   }
