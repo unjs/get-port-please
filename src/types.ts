@@ -3,8 +3,8 @@ export interface GetPortOptions {
   random: boolean;
   port: number;
   ports: number[];
-  portRange: [from: number, to: number];
-  alternativePortRange: [from: number, to: number];
+  portRange: [fromInclusive: number, toExclusive: number];
+  alternativePortRange: [fromInclusive: number, toExclusive: number];
   host: string;
   verbose?: boolean;
   public?: boolean;
