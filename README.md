@@ -80,7 +80,7 @@ Extended port range to check.
 
 ### `alternativePortRange`
 
-Alternative port range to check as fallback when non of the ports are available. Default is `[3000, 3100]` (only when `port` in unspecified.)
+Alternative port range to check as fallback when none of the ports are available. Default is `[3000, 3100]` (only when `port` is unspecified.)
 
 ### `host`
 
