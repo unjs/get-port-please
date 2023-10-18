@@ -126,22 +126,22 @@ describe("internal tools", () => {
   describe("_generateRange", () => {
     test("returns a normal range [from, to) if from < to", () => {
       const from = 1;
-      const to = 6;
+      const to = 5;
       const range = _generateRange(from, to);
 
       expect(range).to.eql([1, 2, 3, 4, 5]);
     });
 
-    test("returns an empty array if from = to", () => {
+    test("returns a singleton array if from = to", () => {
       const from = 1;
       const to = 1;
       const range = _generateRange(from, to);
 
-      expect(range).to.eql([]);
+      expect(range).to.eql([1]);
     });
 
     test("returns an empty array if from > to", () => {
-      const from = 6;
+      const from = 5;
       const to = 1;
       const range = _generateRange(from, to);
 
