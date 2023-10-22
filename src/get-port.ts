@@ -44,15 +44,14 @@ export async function getPort(
     ),
   } as GetPortOptions;
 
-  if (options.random) {
+  if (options.random && options.portRange.length === 0 as number) {
     return getRandomPort(options.host);
   }
 
   // Generate list of ports to check
   const portsToCheck: PortNumber[] = [
-    options.port,
-    ...options.ports,
-    ..._generateRange(...options.portRange),
+    ...(options.random ? [] : [options.port, ...options.ports]),
+    ..._generateRange(options.portRange, options.random)
   ].filter((port) => {
     if (!port) {
       return false;
@@ -70,7 +69,7 @@ export async function getPort(
   // Try fallback port range
   if (!availablePort && options.alternativePortRange.length > 0) {
     availablePort = await _findPort(
-      _generateRange(...options.alternativePortRange),
+      _generateRange(options.alternativePortRange),
       options.host,
     );
     _log(

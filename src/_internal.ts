@@ -19,13 +19,24 @@ export function _log(verbose: boolean, message: string) {
   }
 }
 
-export function _generateRange(from: number, to: number): number[] {
+export function _generateRange(
+  range: [from: number, to: number],
+  random?: boolean,
+): number[] {
+  const [from, to] = range;
   if (to < from) {
     return [];
   }
   const r = [];
   for (let index = from; index < to; index++) {
     r.push(index);
+  }
+  // Fisher-Yates shuffle algorithm
+  if (random) {
+    for (let i = r.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [r[i], r[j]] = [r[j], r[i]];
+    }
   }
   return r;
 }
