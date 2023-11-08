@@ -26,7 +26,8 @@ export async function getPort(
     _userOptions = { port: Number.parseInt(_userOptions + "") || 0 };
   }
 
-  const _port = Number(_userOptions.port ?? process.env.PORT ?? 3000);
+  const defaultPort = 3000;
+  const _port = Number(_userOptions.port ?? process.env.PORT);
 
   const options = {
     name: "default",
@@ -53,6 +54,7 @@ export async function getPort(
     options.port,
     ...options.ports,
     ..._generateRange(...options.portRange),
+    defaultPort,
   ].filter((port) => {
     if (!port) {
       return false;
