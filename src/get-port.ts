@@ -152,7 +152,7 @@ export async function checkPort(
       if (port < 1024 && verbose) {
         _log(
           verbose,
-          `Unable to listen to the priviliged port ${port} ${_fmtOnHost(
+          `Unable to listen to the privileged port ${port} ${_fmtOnHost(
             _host,
           )}`,
         );
