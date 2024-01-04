@@ -24,7 +24,7 @@ export function _generateRange(from: number, to: number): number[] {
     return [];
   }
   const r = [];
-  for (let index = from; index < to; index++) {
+  for (let index = from; index <= to; index++) {
     r.push(index);
   }
   return r;
