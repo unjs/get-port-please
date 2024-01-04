@@ -111,9 +111,7 @@ export async function getPort(
 export async function getRandomPort(host?: HostAddress) {
   const port = await checkPort(0, host);
   if (port === false) {
-    throw new GetPortError(
-      `Unable to find a random port ${_fmtOnHost(host)}`,
-    );
+    throw new GetPortError(`Unable to find a random port ${_fmtOnHost(host)}`);
   }
   return port;
 }
