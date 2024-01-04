@@ -1,6 +1,7 @@
 import { Server } from "node:net";
 import { describe, test, expect, afterEach, vi } from "vitest";
 import { getPort, getRandomPort } from "../src";
+import { _generateRange } from "../src/_internal";
 import { blockPort } from "./utils";
 
 const isWindows = process.platform === "win32";
@@ -106,7 +107,7 @@ describe("errors", () => {
       host: "192.168.1.999",
     }).catch((error) => error);
     expect(error.toString()).toMatchInlineSnapshot(
-      '"GetPortError: Unable to find any random port on host \\"192.168.1.999\\""',
+      `"GetPortError: Unable to find a random port on host "192.168.1.999""`,
     );
   });
 
@@ -116,7 +117,35 @@ describe("errors", () => {
       random: false,
     }).catch((error) => error);
     expect(error.toString()).toMatchInlineSnapshot(
-      '"GetPortError: Unable to find find available port on host \\"192.168.1.999\\" (tried 3000, 3000-3100)"',
+      `"GetPortError: Unable to find an available port on host "192.168.1.999" (tried 3000, 3000-3100)"`,
     );
+  });
+});
+
+describe("internal tools", () => {
+  describe("_generateRange", () => {
+    test("returns a normal range [from, to) if from < to", () => {
+      const from = 1;
+      const to = 5;
+      const range = _generateRange(from, to);
+
+      expect(range).to.eql([1, 2, 3, 4, 5]);
+    });
+
+    test("returns a singleton array if from = to", () => {
+      const from = 1;
+      const to = 1;
+      const range = _generateRange(from, to);
+
+      expect(range).to.eql([1]);
+    });
+
+    test("returns an empty array if from > to", () => {
+      const from = 5;
+      const to = 1;
+      const range = _generateRange(from, to);
+
+      expect(range).to.eql([]);
+    });
   });
 });
