@@ -28,12 +28,18 @@ export async function getPort(
 
   const _port = Number(_userOptions.port ?? process.env.PORT);
 
+  const _userSpecifiedAnyPort = Boolean(
+    _userOptions.port ||
+      _userOptions.ports?.length ||
+      _userOptions.portRange?.length,
+  );
+
   const options = {
     name: "default",
     random: _port === 0,
     ports: [],
     portRange: [],
-    alternativePortRange: _userOptions.port ? [] : [3000, 3100],
+    alternativePortRange: _userSpecifiedAnyPort ? [] : [3000, 3100],
     verbose: false,
     ..._userOptions,
     port: _port,
@@ -44,7 +50,7 @@ export async function getPort(
     ),
   } as GetPortOptions;
 
-  if (options.random) {
+  if (options.random && !_userSpecifiedAnyPort) {
     return getRandomPort(options.host);
   }
 

@@ -27,9 +27,14 @@ describe("getPort", () => {
   });
 
   describe("order", () => {
-    test("`ports` is preferred", async () => {
+    test("ports is preferred", async () => {
       const port = await getPort({ ports: [8080] });
       expect(port).toEqual(8080);
+    });
+
+    test("portRange is preferred over random", async () => {
+      const port = await getPort({ random: true, portRange: [8081, 8085] });
+      expect(port).toEqual(8081);
     });
   });
 
