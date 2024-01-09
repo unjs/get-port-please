@@ -2,6 +2,41 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v3.1.2
+
+[compare changes](https://github.com/unjs/get-port-please/compare/v3.1.1...v3.1.2)
+
+### 🩹 Fixes
+
+- Accept ipv6 as valid hostname ([d537a51](https://github.com/unjs/get-port-please/commit/d537a51))
+- Use closed ranges as port ranges ([#66](https://github.com/unjs/get-port-please/pull/66))
+- Ranges now work even if port is unset in options ([#72](https://github.com/unjs/get-port-please/pull/72))
+- Don't use random port by default if user specified any port ([#65](https://github.com/unjs/get-port-please/pull/65))
+
+### 💅 Refactors
+
+- Correct typos in `GetPortError` message ([#77](https://github.com/unjs/get-port-please/pull/77))
+- Fix typo in error message ([#73](https://github.com/unjs/get-port-please/pull/73))
+- Improve log when using alternative port ([#78](https://github.com/unjs/get-port-please/pull/78))
+
+### 🏡 Chore
+
+- Update fallback message ([1f45050](https://github.com/unjs/get-port-please/commit/1f45050))
+- Update dependencies and lockfile ([62735f6](https://github.com/unjs/get-port-please/commit/62735f6))
+
+### ✅ Tests
+
+- Simplify ([9dccfd9](https://github.com/unjs/get-port-please/commit/9dccfd9))
+- Update snapshot ([59cdd8c](https://github.com/unjs/get-port-please/commit/59cdd8c))
+
+### ❤️ Contributors
+
+- Pooya Parsa ([@pi0](http://github.com/pi0))
+- Filip Joelsson <filip.gberg@gmail.com>
+- Daniel Roe <daniel@roe.dev>
+- Vladimir Vagaytsev ([@vvagaytsev](http://github.com/vvagaytsev))
+- Yu Le <is.yuler@gmail.com>
+
 ## v3.1.1
 
 [compare changes](https://github.com/unjs/get-port-please/compare/v3.1.0...v3.1.1)
