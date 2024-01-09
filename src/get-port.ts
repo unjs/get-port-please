@@ -75,12 +75,15 @@ export async function getPort(
       _generateRange(...options.alternativePortRange),
       options.host,
     );
-    _log(
-      options.verbose,
-      `Unable to find an available port (tried ${options.alternativePortRange.join(
+    if (portsToCheck.length > 0) {
+      let message = `Unable to find an available port (tried ${portsToCheck.join(
         "-",
-      )} ${_fmtOnHost(options.host)}). Using alternative port ${availablePort}`,
-    );
+      )} ${_fmtOnHost(options.host)}).`;
+      if (availablePort) {
+        message += ` Using alternative port ${availablePort}.`;
+      }
+      _log(options.verbose, message);
+    }
   }
 
   // Try random port
@@ -101,7 +104,7 @@ export async function getPort(
       .filter(Boolean)
       .join(", ");
     throw new GetPortError(
-      `Unable to find find available port ${_fmtOnHost(
+      `Unable to find an available port ${_fmtOnHost(
         options.host,
       )} (tried ${triedRanges})`,
     );
@@ -113,9 +116,7 @@ export async function getPort(
 export async function getRandomPort(host?: HostAddress) {
   const port = await checkPort(0, host);
   if (port === false) {
-    throw new GetPortError(
-      `Unable to find any random port ${_fmtOnHost(host)}`,
-    );
+    throw new GetPortError(`Unable to find a random port ${_fmtOnHost(host)}`);
   }
   return port;
 }
@@ -154,7 +155,7 @@ export async function checkPort(
       if (port < 1024 && verbose) {
         _log(
           verbose,
-          `Unable to listen to the priviliged port ${port} ${_fmtOnHost(
+          `Unable to listen to the privileged port ${port} ${_fmtOnHost(
             _host,
           )}`,
         );
