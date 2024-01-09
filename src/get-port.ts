@@ -26,7 +26,7 @@ export async function getPort(
     _userOptions = { port: Number.parseInt(_userOptions + "") || 0 };
   }
 
-  const _port = Number(_userOptions.port ?? process.env.PORT ?? 3000);
+  const _port = Number(_userOptions.port ?? process.env.PORT);
 
   const options = {
     name: "default",
@@ -63,6 +63,9 @@ export async function getPort(
     }
     return true;
   });
+  if (portsToCheck.length === 0) {
+    portsToCheck.push(3000);
+  }
 
   // Try to find a port
   let availablePort = await _findPort(portsToCheck, options.host);

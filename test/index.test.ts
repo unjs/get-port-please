@@ -13,7 +13,7 @@ describe("getPort", () => {
     portBlocker?.close();
   });
 
-  describe("default host`", () => {
+  describe("default host", () => {
     test("default port is not in use", async () => {
       const port = await getPort();
       expect(port).toEqual(3000);
@@ -23,6 +23,13 @@ describe("getPort", () => {
       portBlocker = await blockPort(3000);
       const port = await getPort();
       expect(port).toEqual(3001);
+    });
+  });
+
+  describe("order", () => {
+    test("`ports` is preferred", async () => {
+      const port = await getPort({ ports: [8080] });
+      expect(port).toEqual(8080);
     });
   });
 
@@ -117,7 +124,7 @@ describe("errors", () => {
       random: false,
     }).catch((error) => error);
     expect(error.toString()).toMatchInlineSnapshot(
-      `"GetPortError: Unable to find an available port on host "192.168.1.999" (tried 3000, 3000-3100)"`,
+      `"GetPortError: Unable to find an available port on host "192.168.1.999" (tried 3000-3100)"`,
     );
   });
 });
