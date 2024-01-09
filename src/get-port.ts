@@ -73,12 +73,15 @@ export async function getPort(
       _generateRange(...options.alternativePortRange),
       options.host,
     );
-    _log(
-      options.verbose,
-      `Unable to find an available port (tried ${options.alternativePortRange.join(
+    if (portsToCheck.length > 0) {
+      let message = `Unable to find an available port (tried ${portsToCheck.join(
         "-",
-      )} ${_fmtOnHost(options.host)}). Using alternative port ${availablePort}`,
-    );
+      )} ${_fmtOnHost(options.host)}).`;
+      if (availablePort) {
+        message += ` Using alternative port ${availablePort}.`;
+      }
+      _log(options.verbose, message);
+    }
   }
 
   // Try random port
