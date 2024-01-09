@@ -74,7 +74,7 @@ export async function getPort(
       options.host,
     );
     if (portsToCheck.length > 0) {
-      console.log({ portsToCheck })
+      console.log({ portsToCheck });
       let message = `Unable to find an available port (tried ${portsToCheck.join(
         "-",
       )} ${_fmtOnHost(options.host)}).`;
