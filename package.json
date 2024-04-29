@@ -2,7 +2,10 @@
   "name": "get-port-please",
   "version": "3.1.2",
   "description": "Get an available TCP port to listen",
-  "repository": "unjs/get-port-please",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unjs/get-port-please.git"
+  },
   "license": "MIT",
   "exports": {
     ".": {
