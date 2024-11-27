@@ -39,13 +39,18 @@ describe("getPort", () => {
   });
 
   describe("localhost", () => {
+    afterEach(() => {
+      vi.unstubAllEnvs();
+    });
+
     test("default port is not in use", async () => {
       const port = await getPort({ host: "localhost" });
       expect(port).toEqual(3000);
     });
 
     test("default port is in use", async () => {
-      process.env.HOST = "localhost";
+      vi.stubEnv("HOST", "localhost");
+
       portBlocker = await blockPort(3000, "localhost");
       const port1 = await getPort({ port: 3000, portRange: [3000, 3100] });
       expect(port1).toEqual(3001);
