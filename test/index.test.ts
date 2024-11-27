@@ -79,11 +79,13 @@ describe("random port", () => {
   });
 
   test("{ port: 0 }", async () => {
-    let port = await getPort({ port: 0 });
+    const port = await getPort({ port: 0 });
     expect(typeof port).toBe("number");
     expect(port).not.toBe(3000);
+  });
 
-    port = await getPort({ port: "0" as any });
+  test("{ port: '0' }", async () => {
+    const port = await getPort({ port: "0" as any });
     expect(typeof port).toBe("number");
     expect(port).not.toBe(3000);
   });
