@@ -33,8 +33,8 @@ const {
 } = require("get-port-please");
 ```
 
-```ts
-getPort(options?: GetPortOptions): Promise<number>
+```
+getPort(options: GetPortOptions): Promise<number>;
 checkPort(port: number, host?: string): Promise<number | false>
 waitForPort(port: number, options): Promise<number | false>
 ```
