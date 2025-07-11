@@ -91,5 +91,5 @@ export async function cleanSocket(path: string): Promise<void> {
     // Abstract namespace sockets or invalid paths
     return;
   }
-  return rm(path, { force: true, recursive: true }).catch(() => {})
+  return rm(path, { force: true, recursive: true }).catch(() => {});
 }
