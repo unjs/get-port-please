@@ -1,6 +1,6 @@
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { Server } from "node:net"
+import { Server } from "node:net";
 
 export interface GetSocketOptions {
   /* Human readable prefix for the socket name */
@@ -28,7 +28,7 @@ export function getSocketAddress(opts: GetSocketOptions): string {
   const parts = [
     opts.name,
     opts.pid ? process.pid : undefined,
-    opts.random ? Math.round(Math.random() * 10_000) : undefined
+    opts.random ? Math.round(Math.random() * 10_000) : undefined,
   ].filter(Boolean);
 
   const socketName = `${parts.join("-")}.sock`;
@@ -66,7 +66,7 @@ export async function isSocketSupported(): Promise<boolean> {
   }
 
   const socketAddress = getSocketAddress({ name: "get-port", random: true });
-  const server = new Server()
+  const server = new Server();
   try {
     await new Promise<void>((resolve, reject) => {
       server.on("error", reject);
@@ -76,7 +76,7 @@ export async function isSocketSupported(): Promise<boolean> {
     return true;
   } catch {
     _isSocketSupported = false;
-    return false
+    return false;
   } finally {
     if (server.listening) {
       server.close();
