@@ -1,6 +1,7 @@
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { Server } from "node:net";
+import { rm } from "node:fs/promises";
 
 export interface GetSocketOptions {
   /* Human readable prefix for the socket name */
@@ -80,6 +81,15 @@ export async function isSocketSupported(): Promise<boolean> {
   } finally {
     if (server.listening) {
       server.close();
+      await cleanSocket(socketAddress);
     }
   }
+}
+
+export async function cleanSocket(path: string): Promise<void> {
+  if (!path || path[0] === "\0" || path.startsWith(String.raw`\\.\pipe`)) {
+    // Abstract namespace sockets or invalid paths
+    return;
+  }
+  return rm(path, { force: true, recursive: true }).catch(() => {})
 }
