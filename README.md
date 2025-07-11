@@ -22,6 +22,8 @@ import {
   checkPort,
   getRandomPort,
   waitForPort,
+  getSocketAddress,
+  isSocketSupported
 } from "get-port-please";
 
 // CommonJS
@@ -30,6 +32,8 @@ const {
   checkPort,
   getRandomPort,
   waitForPort,
+  getSocketAddress,
+  isSocketSupported,
 } = require("get-port-please");
 ```
 
