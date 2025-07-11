@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v3.2.0
+
+[compare changes](https://github.com/unjs/get-port-please/compare/v3.1.2...v3.2.0)
+
+### 🚀 Enhancements
+
+- Add unix domain socket utils ([#110](https://github.com/unjs/get-port-please/pull/110))
+
+### 🩹 Fixes
+
+- **validateHostname:** Add `169.254.0.0/16` range to not allowed hostnames ([#101](https://github.com/unjs/get-port-please/pull/101))
+
+### 🏡 Chore
+
+- Update repo ([17df943](https://github.com/unjs/get-port-please/commit/17df943))
+- Update deps ([20d20ec](https://github.com/unjs/get-port-please/commit/20d20ec))
+
+### ✅ Tests
+
+- Mock `console.log` implementation in error tests ([#104](https://github.com/unjs/get-port-please/pull/104))
+
+### 🤖 CI
+
+- Fix corepack ([9590839](https://github.com/unjs/get-port-please/commit/9590839))
+
+### ❤️ Contributors
+
+- Pooya Parsa ([@pi0](https://github.com/pi0))
+- João Carmona ([@jpsc](https://github.com/jpsc))
+- Sam Bostock ([@sambostock](https://github.com/sambostock))
+
 ## v3.1.2
 
 [compare changes](https://github.com/unjs/get-port-please/compare/v3.1.1...v3.1.2)
