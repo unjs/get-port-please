@@ -2,9 +2,13 @@ export interface GetPortOptions {
   name: string;
   random: boolean;
   port: number;
-  ports: number[];
-  portRange: [fromInclusive: number, toInclusive: number];
-  alternativePortRange: [fromInclusive: number, toInclusive: number];
+  ports: number[] | readonly number[];
+  portRange:
+    | [fromInclusive: number, toInclusive: number]
+    | readonly [fromInclusive: number, toInclusive: number];
+  alternativePortRange:
+    | [fromInclusive: number, toInclusive: number]
+    | readonly [fromInclusive: number, toInclusive: number];
   host: string;
   verbose?: boolean;
   public?: boolean;
