@@ -37,8 +37,14 @@ export function _tryPort(
   return new Promise((resolve) => {
     const server = createServer();
     server.unref();
-    server.on("error", () => {
-      resolve(false);
+    server.on("error", (err: any) => {
+      // EAFNOSUPPORT means the address family isn't supported (e.g., IPv6 on IPv4-only systems).
+      // Treat as non-collision (port is available for this address family).
+      if (err?.code === "EAFNOSUPPORT") {
+        resolve(isSafePort(port) && port);
+      } else {
+        resolve(false);
+      }
     });
     server.listen({ port, host }, () => {
       const { port } = server.address() as AddressInfo;
