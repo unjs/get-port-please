@@ -66,12 +66,48 @@ export function _getLocalHosts(additional: HostAddress[]): HostAddress[] {
   return [...hosts];
 }
 
+/**
+ * Check if a port is available on all given hosts.
+ * A port is only considered available if _tryPort succeeds on every host.
+ */
+async function _tryPortAll(
+  port: PortNumber,
+  hosts: HostAddress[],
+): Promise<PortNumber | false> {
+  for (const host of hosts) {
+    const r = await _tryPort(port, host);
+    if (r === false) {
+      return false;
+    }
+    if (port === 0 && r !== 0) {
+      port = r;
+    }
+  }
+  return port;
+}
+
+/**
+ * Expand a loopback hostname to include wildcard addresses for collision detection.
+ * When a server is bound to 0.0.0.0 or [::], it occupies the port on ALL interfaces,
+ * but _tryPort with a specific address won't detect that. This helper ensures wildcard
+ * collisions are also detected.
+ */
+function _expandHostsForCollision(host: HostAddress): HostAddress[] {
+  const hostStr = String(host).toLowerCase();
+  const loopback = new Set(["localhost", "127.0.0.1", "::1", "[::1]"]);
+  if (loopback.has(hostStr)) {
+    return [...new Set([host, "0.0.0.0", "::"])];
+  }
+  return [host];
+}
+
 export async function _findPort(
   ports: number[],
   host: HostAddress,
 ): Promise<PortNumber> {
+  const hosts = _expandHostsForCollision(host);
   for (const port of ports) {
-    const r = await _tryPort(port, host);
+    const r = await _tryPortAll(port, hosts);
     if (r) {
       return r;
     }
