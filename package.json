@@ -29,7 +29,7 @@
     "@types/node": "^24.3.0",
     "@vitest/coverage-v8": "^3.2.4",
     "changelogen": "^0.6.2",
-    "eslint": "^9.34.0",
+    "eslint": "^10.9.1",
     "eslint-config-unjs": "^0.5.0",
     "jiti": "^2.5.1",
     "prettier": "^3.6.2",
