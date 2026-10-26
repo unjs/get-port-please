@@ -64,6 +64,34 @@ describe("getPort", () => {
       expect(port).not.toBe(3000);
     });
   });
+
+  describe("loopback families", () => {
+    test.each([
+      ["127.0.0.1", "localhost", 4101],
+      ["127.0.0.1", "::1", 4102],
+      ["127.0.0.1", "0.0.0.0", 4103],
+      ["::1", "127.0.0.1", 4104],
+      ["::1", "0.0.0.0", 4105],
+      ["0.0.0.0", "localhost", 4106],
+      ["0.0.0.0", "::1", 4107],
+      ["::", "localhost", 4108],
+    ])(
+      "port in use on %s is skipped for host %s",
+      async (blockedHost, host, blockedPort) => {
+        portBlocker = await blockPort(blockedPort, blockedHost);
+        const port = await getPort({ host, port: blockedPort });
+        expect(port).not.toBe(blockedPort);
+      },
+    );
+
+    test.each(["localhost", "127.0.0.1", "::1", "0.0.0.0", "::"])(
+      "free port is returned for host %s",
+      async (host) => {
+        const port = await getPort({ host, port: 4120 });
+        expect(port).toBe(4120);
+      },
+    );
+  });
 });
 
 describe("random port", () => {

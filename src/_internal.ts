@@ -49,6 +49,46 @@ export function _tryPort(
   });
 }
 
+// Addresses that can answer for `localhost`. They can each hold the same port
+// independently (e.g. `::1` while another process holds `127.0.0.1`), so a
+// port is only free for a loopback or wildcard host if none of them has it.
+const LOOPBACK_HOSTS: HostAddress[] = ["127.0.0.1", "::1", "0.0.0.0", "::"];
+
+function _isLoopbackHost(host: HostAddress): boolean {
+  return !host || host === "localhost" || LOOPBACK_HOSTS.includes(host);
+}
+
+function _isPortInUse(port: PortNumber, host: HostAddress): Promise<boolean> {
+  return new Promise((resolve) => {
+    const server = createServer();
+    server.unref();
+    server.on("error", (error: NodeJS.ErrnoException) => {
+      // Other errors (e.g. `EADDRNOTAVAIL` when IPv6 is disabled) mean the
+      // address does not exist here, so it cannot hold the port either.
+      resolve(error.code === "EADDRINUSE" || error.code === "EACCES");
+    });
+    server.listen({ port, host }, () => {
+      server.close(() => resolve(false));
+    });
+  });
+}
+
+export async function _tryPortOnLoopback(
+  port: PortNumber,
+  host: HostAddress,
+): Promise<PortNumber | false> {
+  const result = await _tryPort(port, host);
+  if (result === false || !_isLoopbackHost(host)) {
+    return result;
+  }
+  for (const loopbackHost of LOOPBACK_HOSTS) {
+    if (loopbackHost !== host && (await _isPortInUse(result, loopbackHost))) {
+      return false;
+    }
+  }
+  return result;
+}
+
 export function _getLocalHosts(additional: HostAddress[]): HostAddress[] {
   const hosts = new Set<HostAddress>(additional);
   for (const _interface of Object.values(networkInterfaces())) {
@@ -71,7 +111,7 @@ export async function _findPort(
   host: HostAddress,
 ): Promise<PortNumber> {
   for (const port of ports) {
-    const r = await _tryPort(port, host);
+    const r = await _tryPortOnLoopback(port, host);
     if (r) {
       return r;
     }
